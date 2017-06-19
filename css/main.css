@@ -1,0 +1,25 @@
+div {
+	border: 0px;
+	position: relative;
+	padding: 0.5em;	
+}
+
+#mobi {
+	display: none;
+}
+#web {
+	display: block;
+}
+@media only screen and (max-width:600px) {
+	#mobi {
+		display: block;
+	}
+	#web {
+		display: none;
+	}
+}
+label.create {
+    width: 10em;
+    display: block;
+    float: left;
+}

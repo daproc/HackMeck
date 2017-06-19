@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  padding: 10;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+form {
+  background-color: #eee;
+  padding: 10px;
+  border: 1px solid #8c8c8c;
+  font-size: 1.5em;
+  border-radius: 5px;
+}
+form span {
+	padding-left: 10px;
+	font-size: 0.7em;
+}
+fieldset {
+	padding: 10px;
+	border-radius: 5px;
+}
+label {
+    width: 10em;
+    display: block;
+    cursor: pointer;
+	padding-bottom: 10px;
+}
+input[type="text"] {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+   outline: none // keine blaue Umrandung beim Fokus
+}
+input {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+   outline: none // keine blaue Umrandung beim Fokus
+}
+input[type="password"] {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+   outline: none // keine blaue Umrandung beim Fokus
+}
+
+input:focus,
+textarea:focus {
+  background-color: #d9d9d9;
+}
