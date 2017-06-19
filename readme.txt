@@ -1,16 +1,16 @@
-#####################################
-#Belegungsplan 0.6					#
+﻿#########################################
+#Belegungsplan 0.6			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
-#GERMANY							#
-#									#
-#Mail: daproc@gmx.net				#
-#Paypal: daproc@gmx.net				#
-#									#
-#Zeigt einen Kalender mit 			#
+#GERMANY				#
+#					#
+#Mail: daproc@gmx.net			#
+#Paypal: daproc@gmx.net			#
+#					#
+#Zeigt einen Kalender mit 		#
 #Belegung für ein Objekt an.		#
-#z.B. Ferienwohnung 				#
-#####################################
+#z.B. Ferienwohnung 			#
+#########################################
 
 Readme
 
