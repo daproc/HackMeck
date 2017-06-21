@@ -81,6 +81,8 @@ define("DATABASE", "'.$name.'");
 		}
 	   }  
 	?>
+	
+	<p>Die Datenbanktabellen wurden angelegt<p>
 	<form action="register.php" method="post">
 		
 	<label></label>

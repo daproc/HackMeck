@@ -89,14 +89,16 @@ if(isset($_GET['register'])) {
  if(!$error) { 
  $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
  
- $insert = "INSERT INTO users (email, passwort, name) VALUES ('$email', '$passwort_hash', '$name')";
- $write = mysqli_query($db_link, $insert);
- 
- if($insert) { 
- echo 'Du wurdest erfolgreich registriert. <a href="../admin/index.php">Zum Login</a>';
- $showFormular = false;
- } else {
- echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+ $insert = "INSERT INTO users (email, passwort, name) VALUES (?, ?, ?)";
+ $stmt = mysqli_prepare ($db_link, $insert);
+ mysqli_stmt_bind_param ($stmt, 'sss', $email, $passwort_hash, $name);
+ mysqli_stmt_execute($stmt);
+ if ( ! $stmt ){
+	echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+	die('Ungültige Abfrage: ' . mysqli_error());
+ }else{
+	echo 'Du wurdest erfolgreich registriert. <a href="../admin/index.php">Zum Login</a>';
+	$showFormular = false;
  }
  } 
 }

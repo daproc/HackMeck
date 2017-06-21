@@ -53,7 +53,7 @@
 	</p>
 	<p>
 	<label for="db_pass">Datenbankpasswort</label>
-		<input type="text" name="db_pass"><span> wird meist von Ihrem Provider zugewiesen</span>
+		<input type="password" name="db_pass"><span> wird von Ihrem Provider zugewiesen oder beim Erstellen der Datenbank vergeben</span>
 	</p>
 	
 	<p>
