@@ -48,7 +48,7 @@ $status = 0;
 $referer = getenv("HTTP_REFERER");
 if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset($_POST['ab'])){
 	echo '<div class="fehler">Buchung nur über Belegungsplan möglich!</div>'; 
-	echo "<a href=\"".$referer."\"> Zurück </a>";
+	echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
 }else{
 
 	$fields = array("an", "ab", "anrede", "name", "vorname", "str", "plz", "ort", "tel", "mail", "anzahl_gesamt","anzahl_erw", "anzahl_kind", "tiere", "text", "objekt");
@@ -71,7 +71,7 @@ if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset
 		$date_an = $dan;
 	}else{
 		echo '<div class="fehler">Bitte richtiges Format bei der Anreise angeben z.Bsp. 01.01.2017</div>';
-		echo "<a href=\"".$referer."\"> Zurück </a>";
+		echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
 		exit();
 	}
 	function validateDatean($date_an, $format = 'Y-m-d'){
@@ -82,7 +82,7 @@ if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset
 		$an = $date_an;
 	}else{
 		echo '<div class="fehler">Bitte gültiges Anreisedatum eingeben z.Bsp. 01.01.2017</div>';
-		echo "<a href=\"".$referer."\"> Zurück </a>";
+		echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
 		exit();
 	}
 	if(preg_match("/[\d]{2}\.[\d]{2}\.[\d]{4}/", $dab)) {			//Prüft ob Format dd.mm.yyyy
@@ -92,7 +92,7 @@ if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset
 		$date_ab = $dab;
 	}else{
 		echo '<div class="fehler">Bitte richtiges Format bei der Abreise angeben z.Bsp. 01.01.2017</div>';
-		echo "<a href=\"".$referer."\"> Zurück </a>";
+		echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
 		exit();
 	}
 	function validateDateab($date_ab, $format = 'Y-m-d'){
@@ -103,7 +103,7 @@ if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset
 		$ab = $date_ab;
 	}else{
 		echo '<div class="fehler">Bitte gültiges Abreisedatum eingeben z.Bsp. 01.01.2017</div>';
-		echo "<a href=\"".$referer."\"> Zurück </a>";
+		echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
 		exit();
 	}
 	
@@ -111,7 +111,7 @@ if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset
 	$new_ab = new DateTime($ab);
 	if ($new_an >= $new_ab){
 				echo '<div class="fehler">Anreise muss vor der Abreise liegen!</div>';
-				echo "<a href=\"".$referer."\"> Zurück </a>";
+				echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
 				exit();
 			}
 	$new_an->modify('+1 day');
@@ -134,11 +134,27 @@ if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset
 			$datum_vergl = $date_db->format('Y-m-d');
 			if (in_array($datum_vergl, $booking)){
 				echo '<div class="fehler">In diesem Zeitraum gibt es schon eine Belegung</div>';
-				echo "<a href=\"".$referer."\"> Zurück </a>";
+				echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
 				exit();
 			}
 		}
 	}
+//überprüfung der Personenzahl
+	$chk_guests = "SELECT max_people FROM objekt WHERE id = ?";
+	$stmt = mysqli_prepare($db_link, $chk_guests);
+	mysqli_stmt_bind_param($stmt, 's', $objekt);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	while ($zeile_c = mysqli_fetch_array( $result, MYSQLI_ASSOC)){
+		$max_guest = $zeile_c['max_people'];
+	}	
+	if($anzahl_erw + $anzahl_kind > $max_guest){
+		echo '<div class="fehler">Soviele Gäste bekommen wir nicht unter!</div>';
+		echo '<a href="index.php?objekt='.$objekt.'"> Zurück </a>';
+		die();
+	}	
+	
+	
 //persönliche Daten des Gastes und beziehen der Gast_ID	
 	$ins_guest = "INSERT INTO guests (anrede, name, vorname, str, plz, ort, tel, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	$stmt = mysqli_prepare ($db_link, $ins_guest);
