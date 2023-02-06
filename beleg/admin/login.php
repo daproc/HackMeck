@@ -1,7 +1,8 @@
 <?php 
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -45,8 +46,9 @@ if(isset($_GET['login'])) {
  //$statement = $db_link->prepare("SELECT * FROM users WHERE email = :email");
  //$result = $statement->execute(array('email' => $email));
  //$user = $result->fetch();
- 
- 
+
+$request = NULL;
+
 while ($bla = current($_GET)) {
 	if(key($_GET) == 'login'){
     next($_GET);
@@ -65,7 +67,7 @@ $uri = 'index.php?'.$ende;
 //echo $uri; 
 
  //Überprüfung des Passworts
- if ($row !== false && password_verify($passwort, $row['passwort'])) {
+ if ($row !== NULL && password_verify($passwort, $row['passwort'])) {
  $_SESSION['userid'] = $row['id'];
  header('refresh:0;url='.$uri);
  //header('Location: index.php?'.$ende);
