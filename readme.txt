@@ -1,5 +1,5 @@
 ﻿#########################################
-#Belegungsplan 0.7			#
+#Belegungsplan xxx			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -36,24 +36,26 @@ MySQL-Datenbank
 
 2. Installation
 
-Nach dem Du die Downloaddatei entpackt hast, kannst Du den kompletten Ordner "belegbeta06" auf deinen 
-Webserver laden. Die beiden Ordner "belegbeta06/includes" und "belegbeta06/admin/includes" benötigen für die 
+Nach dem Du die Downloaddatei entpackt hast, kannst Du den kompletten Ordner "beleg" auf deinen 
+Webserver laden. Die beiden Ordner "beleg/includes" und "beleg/admin/includes" benötigen für die 
 Installation Schreibrechte, da dort die Zugangsdaten für die Datenbank abgelegt werden. 
-Öffne Deinen Browser und gehe auf Deine Internetadresse + Pfad zum Belegungsplan + belegbeta06/install.
+Öffne Deinen Browser und gehe auf Deine Internetadresse + Pfad zum Belegungsplan + beleg/install.
 
-Beispiel: www.deinedomain.de/unterordner/belegbeta06/install/  
+Beispiel: www.deinedomain.de/unterordner/beleg/install/  
 
 Nun gibst Du Deine Zugangsdaten für die Datenbank ein und klickst auf "weiter". Das Script erstellt
 jetzt die Datenbanktabellen. Wenn alles geklappt hat, dann klickst Du auf die Schaltfläche weiter.
 Für die Verwaltung Deines Belegungsplans, benötigst Du einen gesicherten Zugang. Die Daten dafür 
-kannst Du jetzt eingeben. Die hier angegebene Emailadresse wird für Nachrichten an Dich genutzt. 
+kannst Du jetzt eingeben. Die hier angegebene Emailadresse wird für Nachrichten an Dich genutzt.  
 Das Passwort muss aus mindestens 7 Zeichen bestehen. Bedenke, dass ein 
 sicheres Passwort aus einer Kombination von Ziffern, Großbuchstaben, Kleinbuchstaben und 
 Sonderzeichen besteht. Merke Dir Deine Zugangsdaten! Nachdem Du auf Abschicken geklickt hast, kannst
 Du dich auch schon Einloggen.
 
 Zum Abschluß der Installation musst Du nur noch den Ordner "install/" löschen, und den beiden Ordnern 
-"belegbeta06/includes" und "belegbeta06/admin/includes" die Schreibrechte wieder entziehen. 
+"beleg/includes" und "beleg/admin/includes" die Schreibrechte wieder entziehen. 
+Für den Im- und Export benötigt der Ordner "beleg/admin/ical" inkl. Unterordner noch Schreibrechte. Setze
+diese mit Deinem FTP-Programm
 
 3. Objekt (Ferienwohnung / -haus) anlegen
 
@@ -136,16 +138,35 @@ Buchungsanfragen kannst Du auch mit dem Link in der Email die Du bekommst bestä
 Du kannst auch Buchungsanfragen widerrufen, indem Du "Buchungen -> Buchungen" wählst.
 Der Ablauf ist der gleiche wie beim Bestätigen.
 
-Die Farben des Kalender änderst Du über Design -> Farben. Hier kannst Du alle Farben auswählen. Mit einem
+Die Farben des Kalender änderst Du über Einstellungen -> Farben. Hier kannst Du alle Farben auswählen. Mit einem
 Klick auf Speichern werden Deine gewählten Farben übernommen. Unten siehst Du wie Deine Auswahl aussieht.
 
 Du kannst wählen ob der Kalender ein ganzes Jahr oder nur einzelne Monate anzeigen soll. Gehe dazu auf 
-Design -> Anzeige. Klicke Jahres-, Monatsansicht oder Automatisch an, wähle wieviele Monatskalender angezeigt werden 
-sollen und danach auf speichern.
+Einstellungen -> Anzeige. Klicke Jahres-, Monatsansicht oder Automatisch an, wähle wieviele Monatskalender angezeigt werden 
+sollen.
+Mit Buchungssystem einschalten bzw. ausschalten kannst Du das Buchungssystem deaktivieren.
 
 Bei Automatisch wird je nach Gerät (Computer, Tablet oder Handy) der passende Kalender angezeigt.
 
-Wenn Du alles erledigt hast kannst Du oben rechts auf Deinen Benutzernamen klicken um Dich auszuloggen.
+Über Einstellungen Nutzer kannst Du neue Nutzer anlegen und auswählen und an welche E-Mailadresse Nachrichten 
+versand werden sollen. 
+
+Um Deine persönlichen Daten zu ändern wähle Benutzername -> bearbeiten. Fülle alle Felder aus um Deine Daten
+zu aktualisieren.
+
+Jetzt ist es auch möglich die Belegungsdaten als iCalendar Datei zu imporieren bzw. zu exportieren.
+Export:
+Wähle dazu Buchungen -> Export iCal -> Export von ... um alle Belegungen des jeweiligen Ferienobjekts
+zu exportieren. Danach klicke auf Download. Die Dateien werden nicht auf dem Server gespeichert.
+
+Import:
+Gehe auf Buchungen -> Import iCal -> Import in ... Über Datei auswählen kannst Du eine iCalendar Datei
+auf Deinem Computer auswählen um diese zu importieren. Termine die schon eingetragen sind werden ausgelassen.
+Das Programm teilt Dir mit wieviele Datensätze imporiert und wieviele übersprungen wurden.
+
+
+
+Wenn Du alles erledigt hast kannst Du oben rechts auf Deinen Benutzernamen -> logout klicken um Dich auszuloggen.
 
 Buchungsanfragen kann der Gast starten indem er im Kalender auf den Tag klickt, an dem er anreisen möchte.
 Dann öffnet sich ein Formular wo er seine Kontaktdaten eingeben kann.

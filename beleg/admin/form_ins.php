@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -94,7 +94,7 @@ if ($name == 2){
 if ($vorname == 2){
 	$form[] = '<label for="vorname" class="create">Vorname*:</label>
         <input type="text" id="vorname" name="vorname" required>';
-}elseif ($name == 1){
+}elseif ($vorname == 1){
 	$form[] = '<label for="vorname" class="create">Vorname:</label>
         <input type="text" id="vorname" name="vorname">';
 }
@@ -108,14 +108,14 @@ if ($str == 2){
 if ($plz == 2){
 	$form[] = '<label for="plz" class="create">Postleitzahl*:</label>
         <input type="number" id="plz" name="plz" size="5" required>';
-}elseif ($name == 1){
+}elseif ($plz == 1){
 	$form[] = '<label for="plz" class="create">Postleitzahl:</label>
         <input type="number" id="plz" name="plz" size="5">';
 }
 if ($ort == 2){
 	$form[] = '<label for="ort" class="create">Ort*:</label>
         <input type="text" id="ort" name="ort" required>';
-}elseif ($str == 1){
+}elseif ($ort == 1){
 	$form[] = '<label for="ort" class="create">Ort:</label>
         <input type="text" id="ort" name="ort">';
 }

@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -47,7 +47,7 @@ include ('css/admin_css.php');
         Bei Automatisch wird auf Smartphones der Monatskalender und bei Computern der Jahreskalender angezeigt.</p>
 
     <?php
-    $settings = "SELECT cal_typ, cal_m_zahl FROM settings WHERE id = 1";
+    $settings = "SELECT cal_typ, cal_m_zahl, book FROM settings WHERE id = 1";
 
     $db_erg = mysqli_query($db_link, $settings);
     if (!$db_erg) {
@@ -58,11 +58,13 @@ include ('css/admin_css.php');
         while ($zeile_s = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
             $cal_typ = $zeile_s['cal_typ'];
             $cal_m_zahl = $zeile_s['cal_m_zahl'];
+            $book = $zeile_s['book'];
         }
     } else {
         $cal_typ = $_GET['cal_typ'];
         $cal_m_zahl = $_GET['anzahl'];
-        $update = "UPDATE `settings` SET `cal_typ` = '" . $cal_typ . "', `cal_m_zahl` = '" . $cal_m_zahl . "' WHERE `settings`.`id` = 1";
+        $book = $_GET['book'];
+        $update = "UPDATE `settings` SET `cal_typ` = '" . $cal_typ . "', `cal_m_zahl` = '" . $cal_m_zahl . "', `book` = '" . $book . "' WHERE `settings`.`id` = 1";
         $write = mysqli_query($db_link, $update);
     }
 
@@ -102,6 +104,20 @@ include ('css/admin_css.php');
     }
     echo '<br><br><br><br>';
     echo '<label for="anzahl">Anzahl angezeigter Monate:<br><br><input id="anzahl" name="anzahl" type="number" min="1" max="12" step="1" value="' . $cal_m_zahl . '"></label>';
+    echo '<br><br><br><br>';
+    echo '<input type="radio" id="ein" name="book" value="1"';
+    if ($book == 1) {
+        echo 'checked';
+    }
+    echo '>';
+    echo '<label for="ein"> Buchungssystem einschalten</label>';
+    echo '<br><br>';
+    echo '<input type="radio" id="aus" name="book" value="0"';
+    if ($book == 0) {
+        echo 'checked';
+    }
+    echo '>';
+    echo '<label for="aus"> Buchungssystem ausschalten</label>';
     echo '<br><br>';
     echo '<input type="hidden" name="objekt" value="' . $objekt . '">';
     echo '<input type="hidden" name="in" value="scr">';

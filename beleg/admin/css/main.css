@@ -26,13 +26,6 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
 */
 	
-
-body {
-  margin: 0;
-  padding: 10;
-  font-family: 'Roboto', sans-serif;
-  box-sizing: border-box;
-}
 form {
   background-color: #eee;
   padding: 10px;
@@ -47,18 +40,20 @@ form span {
 fieldset {
 	padding: 10px;
 	border-radius: 5px;
+        
 }
 label {
     width: 10em;
     display: block;
     cursor: pointer;
-	padding-bottom: 10px;
+    padding-bottom: 10px;
 }
 input[type="text"] {
    padding: 2px 16px; 
    height: 40px; 
    font-size: 1em;
    border-radius: 5px;
+   width: 80%;
 }
 input {
    padding: 2px 16px; 
@@ -71,9 +66,18 @@ input[type="password"] {
    height: 40px; 
    font-size: 1em;
    border-radius: 5px;
+   width: 80%;
+}
+input[type="email"] {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+   width: 80%;
 }
 
 input:focus,
 textarea:focus {
   background-color: #d9d9d9;
+  
 }

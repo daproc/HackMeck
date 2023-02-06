@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -171,7 +171,7 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 
 
 //persönliche Daten des Gastes und beziehen der Gast_ID	
-            $ins_guest = $pdo->prepare("INSERT INTO guests (anrede, name, vorname, str, plz, ort, tel, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $ins_guest = $pdo->prepare("INSERT INTO guests (anrede, nname, vorname, str, plz, ort, tel, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $ins_guest->execute(array($anrede, $name, $vorname, $str, $plz, $ort, $tel, $mail));
             $guest_id = $pdo->lastInsertId();
 

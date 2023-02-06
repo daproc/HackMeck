@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -60,8 +60,8 @@ if (filter_input(INPUT_GET, 'objekt', FILTER_VALIDATE_INT)) {
             <meta charset="utf-8">
 			<meta name="author" content="Daniel Procek-Berger">
 			<meta name="copyright" content=" (c) HackMeck">
-			<meta name="description" content="Belegungsplan für Ferienwohnungen und -Häuser von HeckMeck">
-			<meta name="keywords" contend="Belegungsplan, HackMeck, Ferienwohnung, Ferienhaus, Buchung, buchen, Buchungssystem">
+			<meta name="description" content="Kostenloser Belegungsplan für Ferienwohnungen, Ferienhäuser und anderer Ferienobjekte von HeckMeck">
+			<meta name="keywords" contend="Belegungsplan, HackMeck, Ferienwohnung, Ferienhaus, Buchung, buchen, Buchungssystem, kostenlos">
 			<meta name="robots" content="index,follow">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="style/main.css">
@@ -73,11 +73,12 @@ if (filter_input(INPUT_GET, 'objekt', FILTER_VALIDATE_INT)) {
             </html>';
     die();
 }
-$settings = $pdo->prepare("SELECT cal_typ, cal_m_zahl FROM settings WHERE id=?");
+$settings = $pdo->prepare("SELECT cal_typ, cal_m_zahl, book FROM settings WHERE id=?");
 $settings->execute(array(1));
 while ($zeile_c = $settings->fetch()) {
     $cal_typ = $zeile_c['cal_typ'];
     $anzahl_month = $zeile_c['cal_m_zahl'];
+    $book = $zeile_c['book'];
 }
 if ($anzahl_month > 12) {
     $anzahl_month = 12;
@@ -100,15 +101,21 @@ include 'style/insert.css.php';
         </style>
     </head>
     <body>
-        <div class="info"><p>Zur Buchung auf den gewünschten Anreisetag klicken.</p></div>
         <?php
+        if ($book == 1) {
+            echo '<div class="info"><p>Zur Buchung auf den gewünschten Anreisetag klicken.</p></div>';
+        }
         if ($cal_typ == 2) {
             echo '<div class = "auswahl">';
             year($year, $objekt);
             echo '</div>';
             echo '<div class="cal">';
             echo '<div class="cal">';
-            cal($monatsnamen, $year, $objekt);
+            if ($book == 1) {
+                cal($monatsnamen, $year, $objekt);
+            } else {
+                cal_no($monatsnamen, $year, $objekt);
+            }
             echo '</div>';
             echo '</div>';
             exit();
@@ -118,76 +125,88 @@ include 'style/insert.css.php';
             echo '</div>';
             echo '<div class="cal">';
             echo '<div class="cal">';
-            cal_m($year, $month, $anzahl_month, $monatsnamen, $objekt);
+            if ($book == 1) {
+                cal_m($year, $month, $anzahl_month, $monatsnamen, $objekt);
+            } else {
+                cal_m_no($year, $month, $anzahl_month, $monatsnamen, $objekt);
+            }
             ?>
             <footer>
-            <div class="legend">
-                <div class="legend">Belegt:</div>
-                <div class="legend" id="belegt">
+                <div class="legend">
+                    <div class="legend">Belegt:</div>
+                    <div class="legend" id="belegt">
+                    </div>
                 </div>
-            </div>
-            <div class="legend">
-                <div class="legend">Anreise:</div>
-                <div class="legend" id="an">
+                <div class="legend">
+                    <div class="legend">Anreise:</div>
+                    <div class="legend" id="an">
+                    </div>
                 </div>
-            </div>
-            <div class="legend">
-                <div class="legend">Abreise:</div>
-                <div class="legend" id="ab">
+                <div class="legend">
+                    <div class="legend">Abreise:</div>
+                    <div class="legend" id="ab">
+                    </div>
                 </div>
-            </div>
-        </footer>
-        <footer>
-            <div class="copy"><a href="http://hackmeck.bplaced.net">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
-        </footer>
-        </div>
-            <?php
-        } elseif ($cal_typ == 3) {
-            echo '<div class="mobi">';
-            echo '<div class = "auswahl">';
-            auswahl($monatsnamen, $objekt);
-            echo '</div>';
-            echo '<div class="cal">';
-            echo '<div class="cal">';
-            cal_m($year, $month, $anzahl_month, $monatsnamen, $objekt);
-            echo '</div></div>';
-            ?>
+            </footer>
             <footer>
-            <div class="legend">
-                <div class="legend">Belegt:</div>
-                <div class="legend" id="belegt">
-                </div>
-            </div>
-            <div class="legend">
-                <div class="legend">Anreise:</div>
-                <div class="legend" id="an">
-                </div>
-            </div>
-            <div class="legend">
-                <div class="legend">Abreise:</div>
-                <div class="legend" id="ab">
-                </div>
-            </div>
-        </footer>
-        <footer>
-            <div class="copy"><a href="http://hackmeck.bplaced.net">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
-        </footer>
+                <div class="copy"><a href="http://hackmeck.bplaced.net">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
+            </footer>
         </div>
-            <?php
-            echo '<div class="web">';
-            echo '<div class = "auswahl">';
-            year($year, $objekt);
-            echo '</div>';
-            echo '<div class="cal">';
-            echo '<div class="cal">';
-            cal($monatsnamen, $year, $objekt);
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
+        <?php
+    } elseif ($cal_typ == 3) {
+        echo '<div class="mobi">';
+        echo '<div class = "auswahl">';
+        auswahl($monatsnamen, $objekt);
+        echo '</div>';
+        echo '<div class="cal">';
+        echo '<div class="cal">';
+        if ($book == 1) {
+            cal_m($year, $month, $anzahl_month, $monatsnamen, $objekt);
+        } else {
+            cal_m_no($year, $month, $anzahl_month, $monatsnamen, $objekt);
         }
+        echo '</div></div>';
         ?>
-        
+        <footer>
+            <div class="legend">
+                <div class="legend">Belegt:</div>
+                <div class="legend" id="belegt">
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend">Anreise:</div>
+                <div class="legend" id="an">
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend">Abreise:</div>
+                <div class="legend" id="ab">
+                </div>
+            </div>
+        </footer>
+        <footer>
+            <div class="copy"><a href="http://hackmeck.bplaced.net">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
+        </footer>
     </div>
+    <?php
+    echo '<div class="web">';
+    echo '<div class = "auswahl">';
+    year($year, $objekt);
+    echo '</div>';
+    echo '<div class="cal">';
+    echo '<div class="cal">';
+    if ($book == 1) {
+        cal($monatsnamen, $year, $objekt);
+    } else {
+        cal_no($monatsnamen, $year, $objekt);
+    }
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+}
+?>
+
+</div>
 </div>
 </div>
 </body>

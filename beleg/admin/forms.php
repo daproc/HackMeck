@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -48,7 +48,7 @@ $obj = $_GET['objekt'];
 <div class="form_gen">
 <h3>Auswahl</h3>
 <?php
-echo '<form action="index.php?in=formin&objekt='.$obj.'" method="post">';
+echo '<form class="free" action="index.php?in=formin&objekt='.$obj.'" method="post">';
 	for ($i = 0; $i < count($fields); $i++){
 		if ($i % 2 != 0){
 			echo '<div class="gerade">';

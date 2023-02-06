@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -88,10 +88,10 @@ if(isset($_GET['register'])) {
  //Keine Fehler, wir können den Nutzer registrieren
  if(!$error) { 
  $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
- 
- $insert = "INSERT INTO users (email, passwort, name) VALUES (?, ?, ?)";
+ $send=1;
+ $insert = "INSERT INTO users (email, passwort, name, send) VALUES (?, ?, ?, ?)";
  $stmt = mysqli_prepare ($db_link, $insert);
- mysqli_stmt_bind_param ($stmt, 'sss', $email, $passwort_hash, $name);
+ mysqli_stmt_bind_param ($stmt, 'sssi', $email, $passwort_hash, $name, $send);
  mysqli_stmt_execute($stmt);
  if ( ! $stmt ){
 	echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';

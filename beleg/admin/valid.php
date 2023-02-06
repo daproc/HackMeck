@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -70,8 +70,8 @@ echo '<table>';
 while ($zeile_c = mysqli_fetch_array( $result, MYSQLI_ASSOC)){
 	echo '<tr><td>Anrede:</td><td>'.$zeile_c['anrede'].'</td></tr>';
 	$anrede = $zeile_c['anrede'];
-	echo '<tr><td>Name:</td><td>'.$zeile_c['vorname'].' '.$zeile_c['name'].'</td></tr>';
-	$zuname = $zeile_c['name'];
+	echo '<tr><td>Name:</td><td>'.$zeile_c['vorname'].' '.$zeile_c['nname'].'</td></tr>';
+	$zuname = $zeile_c['nname'];
 	echo '<tr><td>Str.:</td><td>'.$zeile_c['str'].'</td></tr>';
 	echo '<tr><td>PLZ Ort:</td><td>'.$zeile_c['plz'].' '.$zeile_c['ort'].'</td></tr>';
 	echo '<tr><td>Tel:</td><td>'.$zeile_c['tel'].'</td></tr>';

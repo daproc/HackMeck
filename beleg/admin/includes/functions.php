@@ -1,7 +1,7 @@
 <?php
 
 #########################################
-#Belegungsplan 0.7			#
+#Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
@@ -32,7 +32,7 @@ include_once 'beleg-config.php';
 function year($year_chk, $objekt) {
 
     echo $year_chk; //Ausgabe vom angezeigten Jahr
-    echo '<form action="index.php" method="get" >';
+    echo '<form class="free" action="index.php" method="get" >';
     echo '<select name="jahr" size="1">';
     for ($year_chk = date("Y"); $year_chk <= (date("Y") + 2); $year_chk++) {  //Auswahlfeld aktuelles Jahr und die 2 folgenden
         echo "<option>" . $year_chk . "</option>";

@@ -32,7 +32,7 @@ CREATE TABLE `color` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `color` (`id`, `cal_month`, `cal_beleg`, `form_back`, `cal_back`, `cal_head`, `cal_days`, `cal_we`, `back`, `font`) VALUES
-(1, '#ffff00', '#ff0000', '#ffff00', '#ffffff', '#ffff00', '#ffffff', '#ffffff', '#ffffff', '#000000');
+(1, '#ffff00', '#ff0000', '#ffff00', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#000000');
 
 CREATE TABLE `forms` (
   `id` int(11) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `guests` (
   `id` int(11) NOT NULL,
   `anrede` text NOT NULL,
   `vorname` text NOT NULL,
-  `name` text NOT NULL,
+  `nname` text NOT NULL,
   `str` text NOT NULL,
   `plz` int(5) NOT NULL,
   `ort` text NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE `mail_text` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `mail_text` (`id`, `best_text`, `buch_text`) VALUES
-(1, 'Geben Sie hier den Text für die Bestätigungsmail ein!', 'Geben Sie hier den Text für die Buchungsmail ein');
+(1, 'Geben Sie hier den Text für die Bestätigungsmail an den Gast ein!', 'Geben Sie hier den Text für die Buchungsmail für den Gast ein');
 
 CREATE TABLE `objekt` (
   `id` int(11) NOT NULL,
@@ -73,11 +73,12 @@ CREATE TABLE `objekt` (
 CREATE TABLE `settings` (
   `id` int(1) NOT NULL,
   `cal_typ` int(1) DEFAULT NULL,
-  `cal_m_zahl` int(2) NOT NULL
+  `cal_m_zahl` int(2) NOT NULL,
+  `book` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `settings` (`id`, `cal_typ`, `cal_m_zahl`) VALUES
-(1, 1, 3);
+INSERT INTO `settings` (`id`, `cal_typ`, `cal_m_zahl`, `book`) VALUES
+(1, 1, 3, 1);
 
 CREATE TABLE `times` (
   `id` int(11) NOT NULL,
@@ -94,7 +95,8 @@ CREATE TABLE `users` (
   `passwort` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `send` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
