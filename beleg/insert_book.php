@@ -2,7 +2,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -130,19 +130,19 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
             $today = date('Y-m-d');
             $dateTimestamp1 = strtotime($date_an);
             $dateTimestamp2 = strtotime($today);
-            if ($dateTimestamp1 < $dateTimestamp2){
+            if ($dateTimestamp1 < $dateTimestamp2) {
                 echo '<div class="fehler">Anreise kann nicht in der Vergangenheit liegen!</div>';
                 echo '<a href="index.php?objekt=' . $objekt . '"> Zurück </a>';
                 exit();
             }
-                
+
             $new_an->modify('+1 day');
             $new_ab->modify('-1 day');
             $booking = array();
             for ($date = $new_an; $date <= $new_ab; $date->modify('+1 day')) {
                 $booking[] = $date->format('Y-m-d');
             }
-            
+
             $statement = $pdo->prepare("SELECT datean, dateab FROM times WHERE objekt_id = " . $objekt . " AND confirmed = 1 ORDER BY datean");
             $statement->execute(array($objekt));
             while ($zeile = $statement->fetch()) {
@@ -187,7 +187,7 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
             $booking_nr = $guest_id . '-' . $times_id . '-' . $booking_id;
             echo 'Ihre Buchung wurde gespeichert<br>';
             echo 'Für weitere Anfragen verwenden sie bitte folgende Buchungsnummer: ' . $booking_nr;
-            echo '<br><a href="index.php?objekt='.$objekt.'">zurück</a>';
+            echo '<br><a href="index.php?objekt=' . $objekt . '">zurück</a>';
 
 //Mailadresse holen	
             $mailadr = $pdo->prepare("SELECT email FROM users WHERE send = 1 ORDER BY ID DESC LIMIT 1");
@@ -196,11 +196,14 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
                 $emailadr = $zeile_c['email'];
             }
 //Textbaustein holen
-            $text = $pdo->prepare("SELECT buch_text FROM mail_text ORDER BY ID DESC LIMIT 1");
+            $text = $pdo->prepare("SELECT buch_text, anhang_buch FROM mail_text ORDER BY ID DESC LIMIT 1");
             $text->execute(array());
             while ($zeile_c = $text->fetch()) {
                 $buch_text = $zeile_c['buch_text'];
+                $anhang_buch = $zeile_c['anhang_buch'];
             }
+            $datei = 'admin/'.$anhang_buch;
+            
 //Mail an Gast versenden
             // Betreff
             $betreff = 'Ihre Buchung';
@@ -215,15 +218,62 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 <p>' . $anr . '</p>
 <p>' . $buch_text . '</p>';
 
+            $filename = 'admin/includes/smtp-config.php';
+            if (file_exists($filename)) {
+                include 'admin/includes/smtp-config.php';
+                require 'PHPMailerAutoload.php';
+                $hmMailer = new PHPMailer;
+                $hmMailer->CharSet = 'UTF-8';
+                $hmMailer->isSMTP();
+                $hmMailer->Host = SMTPSERVER;
+                $hmMailer->SMTPAuth = true;
+                $hmMailer->Username = SMTPUSER;
+                $hmMailer->Password = SMTPPASSWORD;
+                $hmMailer->SMTPSecure = 'tls';
+                $hmMailer->Port = SMTPPORT;
+                $hmMailer->SMTPDebug = 0;
+                $hmMailer->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    )
+                );
+                $hmMailer->From = $emailadr;
+                $hmMailer->FromName = $_SERVER['SERVER_NAME'];
+                $hmMailer->addAddress($mail, $mail);
+                $hmMailer->addBCC($emailadr, $emailadr);
+                $hmMailer->addAttachment($datei);
+                $hmMailer->isHTML(true);
+                $hmMailer->Subject = $betreff;
+                $hmMailer->Body = $nachricht;
+                $hmMailer->AltBody = strip_tags($hmMailer->Body);
+                if (!$hmMailer->send()) {
+                    echo 'Mailer Error: ' . $hmMailer->ErrorInfo;
+                } else {
+                    echo "<br>Eine Email wurde an " . $mail . " versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
+                }
+            } else {
+                require 'PHPMailerAutoload.php';
+                $hmMailer = new PHPMailer;
+                $hmMailer->CharSet = 'UTF-8';
+                $hmMailer->From = $emailadr;
+                $hmMailer->FromName = $_SERVER['SERVER_NAME'];
+                $hmMailer->addAddress($mail, $mail);
+                $hmMailer->addBCC($emailadr, $emailadr);
+                $hmMailer->addAttachment($datei);
+                $hmMailer->isHTML(true);
+                $hmMailer->Subject = $betreff;
+                $hmMailer->Body = $nachricht;
+                $hmMailer->AltBody = strip_tags($hmMailer->Body);
+                if (!$hmMailer->send()) {
+                    echo 'Mailer Error: ' . $hmMailer->ErrorInfo;
+                } else {
+                    echo "<br>Eine Email wurde an " . $mail . " versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
+                }
+                echo "<br>Eine Email wurde an " . $mail . " versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
+            }
 
-            $header = 'MIME-Version: 1.0' . "\r\n";
-            $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-
-            // zusätzliche Header
-            $header .= 'Reply: ' . $emailadr . "\r\n";
-            $header .= 'Bcc: ' . $emailadr . "\r\n";
-            mail($mail, $betreff, $nachricht, $header);
-            echo "<br>Eine Email wurde an ".$mail." versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
 //url für bearbeitung
             $path = $_SERVER['REQUEST_URI'];
             $path = explode('/', $path);
@@ -253,7 +303,48 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
             $header = 'MIME-Version: 1.0' . "\r\n";
             $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 
-            
-            mail($emailadr, $betreff, $nachricht, $header);
+
+            if (file_exists($filename)) {
+                $aMailer = new PHPMailer;
+                $aMailer->CharSet = 'UTF-8';
+                $aMailer->isSMTP();
+                $aMailer->Host = SMTPSERVER;
+                $aMailer->SMTPAuth = true;
+                $aMailer->Username = SMTPUSER;
+                $aMailer->Password = SMTPPASSWORD;
+                $aMailer->SMTPSecure = 'tls';
+                $aMailer->Port = SMTPPORT;
+                $aMailer->SMTPDebug = 0;
+                $aMailer->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    )
+                );
+                $aMailer->From = $emailadr;
+                $aMailer->FromName = $_SERVER['SERVER_NAME'];
+                $aMailer->addAddress($emailadr, $emailadr);
+                $aMailer->isHTML(true);
+                $aMailer->Subject = $betreff;
+                $aMailer->Body = $nachricht;
+                $aMailer->AltBody = strip_tags($aMailer->Body);
+                if (!$aMailer->send()) {
+                    //echo 'Mailer Error: ' . $aMailer->ErrorInfo;
+                }
+            } else {
+                $aMailer = new PHPMailer;
+                $aMailer->CharSet = 'UTF-8';
+                $aMailer->From = $emailadr;
+                $aMailer->FromName = $_SERVER['SERVER_NAME'];
+                $aMailer->addAddress($emailadr, $emailadr);
+                $aMailer->isHTML(true);
+                $aMailer->Subject = $betreff;
+                $aMailer->Body = $nachricht;
+                $aMailer->AltBody = strip_tags($aMailer->Body);
+                if (!$aMailer->send()) {
+                    //echo 'Mailer Error: ' . $aMailer->ErrorInfo;
+                }
+            }
         }
         ?>

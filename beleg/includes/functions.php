@@ -3,7 +3,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -194,7 +194,7 @@ function cal($month_arr, $jahr_akt, $obj) {
     echo '<td colspan="3">Abreise</td>';
     echo '<td id="belegt"></td>';
     echo '<td colspan="3">belegt</td>';
-    echo '<td colspan="27" align="right" border="0">&copy; 2016-' . date('Y') . ' <a href="http://hackmeck.bplaced.net">HackMeck</a></td></tr></tfoot>';
+    echo '<td colspan="27" align="right" border="0">&copy; 2016-' . date('Y') . ' <a href="https://www.hackmeck.de">HackMeck</a></td></tr></tfoot>';
     for ($m = 1; $m <= 12; $m++) {
         echo "<tr>";
         if ($m == 1 || $m == 3 || $m == 5 || $m == 7 || $m == 8 || $m == 10 || $m == 12) {
@@ -248,7 +248,7 @@ function cal_no($month_arr, $jahr_akt, $obj) {
     echo '<td colspan="3">Abreise</td>';
     echo '<td id="belegt"></td>';
     echo '<td colspan="3">belegt</td>';
-    echo '<td colspan="27" align="right" border="0">&copy; 2016-' . date('Y') . ' <a href="http://hackmeck.bplaced.net">HackMeck</a></td></tr></tfoot>';
+    echo '<td colspan="27" align="right" border="0">&copy; 2016-' . date('Y') . ' <a href="https://www.hackmeck.de">HackMeck</a></td></tr></tfoot>';
     for ($m = 1; $m <= 12; $m++) {
         echo "<tr>";
         if ($m == 1 || $m == 3 || $m == 5 || $m == 7 || $m == 8 || $m == 10 || $m == 12) {

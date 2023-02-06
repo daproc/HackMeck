@@ -2,7 +2,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -104,6 +104,7 @@ include ('css/admin_css.php');
                         <ul>
                             <li><a href="index.php?in=scr&objekt=1" title="Anzeige">Anzeige</a></li>
                             <li><a href="index.php?in=des&objekt=1" title="Farben">Farben</a></li>
+                            <li><a href="index.php?in=mail_set" title="Email-Einstellungen">Email-Einstellungen</a></li>
                             <li><a href="index.php?in=text" title="Texte">Textbausteine</a></li>
                             <li><a href="index.php?in=user_ad" title="Texte">Nutzer</a></li>
                         </ul>
@@ -206,6 +207,7 @@ include ('css/admin_css.php');
                     </li>
                 </ul>
                 <ul class="right">
+                    <li><a href="https://www.hackmeck.de/Belegungsplan/doku.php#use" target="blank">Hilfe</a></li>
                     <li class="submenu"><a href="#"><?php echo $username; ?></a>
                         <ul>
                             <li><a href="logout.php">logout</a></li>
@@ -297,6 +299,9 @@ include ('css/admin_css.php');
                 name($_GET['objekt']);
                 echo '</h1>';
                 include ('import.php');
+            } elseif ($in == 'mail_set'){
+                echo '<h1>Einstellungen für den Emailversand</h1>';
+                include 'mail_setting.php';
             }
             ?>
         </div>
@@ -304,7 +309,7 @@ include ('css/admin_css.php');
         </div>
         <br>
         <div id = "bottom">
-            <div><p>&copy;2016-<?php echo date('Y'); ?> <a href="http://hackmeck.bplaced.net">HackMeck</a></p></div>
+            <div><p>&copy;2016-<?php echo date('Y'); ?> <a href="https://www.hackmeck.de">HackMeck</a></p></div>
         </div>
         <div id = "header">
         </div>

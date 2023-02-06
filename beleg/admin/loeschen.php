@@ -2,7 +2,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -56,14 +56,16 @@ if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen
 		$datean = $zeile['datean'];
 		$dateab = $zeile['dateab'];
 		$id = $zeile['id'];
+                $obj_id = $zeile['objekt_id'];
 		$guest_id = $zeile['user'];
 		$obj_name = $zeile['name'];
 		echo 'Datensatz "'.date('d.m.y', strtotime($datean)).' bis '.date('d.m.y', strtotime($dateab)).' aus Objekt: '.$obj_name.'" wirklich löschen?<br>'; 
-		echo '<a href=index.php?in=loe&ask=yes&id='.$id.'&user='.$guest_id.'>JA</a> <a href=index.php?in=rem>NEIN</a>';
+		echo '<a href=index.php?in=loe&ask=yes&id='.$id.'&obj='.$obj_id.'&user='.$guest_id.'>JA</a> <a href=index.php?in=rem>NEIN</a>';
 	}
 }elseif(isset($_GET['ask'])and !empty($_GET['ask']) AND isset($_GET['id'])and !empty($_GET['id'])){
 	$id = $_GET['id'];
 	$guest_id = $_GET['user'];
+        $obj_id = $_GET['obj'];
 	$rem_book = "DELETE FROM booking WHERE guest_id = '".$guest_id."'";
 	$re_book = mysqli_query($db_link, $rem_book);
 	$rem_guest = "DELETE FROM guests WHERE id = '".$guest_id."'";
@@ -71,7 +73,8 @@ if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen
 	$loeschen = "DELETE FROM times WHERE id = '".$id."'";
 	$loesch = mysqli_query($db_link, $loeschen);
 	echo 'Datensatz gelöscht<br>';
-	echo '<a href=index.php?in=rem>zurück</a>';	
+	echo '<a href=index.php?in=rem>zurück</a>';
+        export($db_link, $obj_id);
 }elseif(!isset($_GET['id'])AND empty($_GET['id'])) {
 	echo 'Keine Daten zum löschen ausgewählt<br>';
 	echo '<a href=index.php?in=rem>zurück</a>';

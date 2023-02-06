@@ -2,7 +2,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -149,7 +149,7 @@ include 'style/insert.css.php';
                 </div>
             </footer>
             <footer>
-                <div class="copy"><a href="http://hackmeck.bplaced.net">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
+                <div class="copy"><a href="https://www.hackmeck.de">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
             </footer>
         </div>
         <?php
@@ -185,7 +185,7 @@ include 'style/insert.css.php';
             </div>
         </footer>
         <footer>
-            <div class="copy"><a href="http://hackmeck.bplaced.net">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
+            <div class="copy"><a href="https://www.hackmeck.de">HackMeck &copy; 2016-<?php echo date("Y") ?></a></div>
         </footer>
     </div>
     <?php

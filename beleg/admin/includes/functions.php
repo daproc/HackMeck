@@ -3,7 +3,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -46,7 +46,7 @@ function year($year_chk, $objekt) {
 
 function cal($month_arr, $jahr_akt) {
     echo "<table id=\"tabelle\">";
-    echo '<tfoot><tr><td colspan="32" align="right" border="0">&copy; 2016-' . date('Y') . ' <a href="http://hackmeck.bplaced.net">HackMeck</a></td></tr></tfoot>';
+    echo '<tfoot><tr><td colspan="32" align="right" border="0">&copy; 2016-' . date('Y') . ' <a href="https://www.hackmeck.de">HackMeck</a></td></tr></tfoot>';
     for ($m = 1; $m <= 12; $m++) {
         echo "<tr>";
         if ($m == 1 || $m == 3 || $m == 5 || $m == 7 || $m == 8 || $m == 10 || $m == 12) {
@@ -113,8 +113,8 @@ function formular($objekt_id) {
 
 function name($id) {
     $db_link = mysqli_connect(
-        HOST, USER, PASSWORD, DATABASE
-);
+            HOST, USER, PASSWORD, DATABASE
+    );
     $sql = "SELECT name FROM objekt WHERE id = '" . $id . "'";
     $db_erg = mysqli_query($db_link, $sql);
     if (!$db_erg) {
@@ -122,6 +122,71 @@ function name($id) {
     }
     while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
         $name = $zeile['name'];
-        echo  $name;
+        echo $name;
     }
+}
+
+function export($db_link, $obj) {
+    $sql = "SELECT name, export_uri FROM objekt WHERE id = '" . $obj . "'";
+    $db_erg = mysqli_query($db_link, $sql);
+    while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
+        $obj_name = $zeile['name'];
+        $exp_uri = $zeile['export_uri'];
+    }
+    if (file_exists("ical/" . $exp_uri)) {
+            unlink("ical/" . $exp_uri);
+        }
+    $kb_ical = fopen('ical/' . $exp_uri, 'a') or die('Datei kann nicht gespeichert werden!');
+    fwrite($kb_ical, "BEGIN:VCALENDAR");
+    fwrite($kb_ical, "\r\nVERSION:2.0");
+    fwrite($kb_ical, "\r\nPRODID:-//Belegungsplan//hackmeck.bplaced.de//DE");
+    fwrite($kb_ical, "\r\nCALSCALE:GREGORIAN");
+    mysqli_set_charset($db_link, 'utf8');
+    $sql = "SELECT 
+			times.datean, 
+			times.dateab,
+			times.user,
+			times.objekt_id,
+			objekt.name,
+			booking.id,
+			booking.times_id,
+                        guests.nname,
+                        guests.email
+		FROM 
+			times 
+		LEFT JOIN 
+			objekt ON times.objekt_id = objekt.id 
+		LEFT JOIN 
+			booking ON times.user = booking.guest_id
+                LEFT JOIN 
+			guests ON times.user = guests.id        
+		WHERE 
+			times.confirmed = '1' AND times.objekt_id = '" . $obj . "'			
+		ORDER BY 
+			datean";
+    $db_erg = mysqli_query($db_link, $sql);
+    if (!$db_erg) {
+        die('Ungültige Abfrage: ' . mysqli_error($db_erg));
+    }
+    while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
+        $datean = $zeile['datean'];
+        $dateab = $zeile['dateab'];
+        $times_id = $zeile['times_id'];
+        $obj_id = $zeile['objekt_id'];
+        $guest_id = $zeile['user'];
+        $obj_name = $zeile['name'];
+        $book_id = $zeile['id'];
+        $guest_name = $zeile['nname'];
+        $guest_mail = $zeile['email'];
+        fwrite($kb_ical, "\r\nBEGIN:VEVENT");
+        fwrite($kb_ical, "\r\nUID:" . date('Ymd') . "T" . date('His') . "Z-" . $guest_mail);
+        fwrite($kb_ical, "\r\nDTSTAMP:" . date('Ymd') . "T" . date('His') . "Z");
+        fwrite($kb_ical, "\r\nDTSTART:" . date('Ymd', strtotime($datean)) . "T000000Z");
+        fwrite($kb_ical, "\r\nDTEND:" . date('Ymd', strtotime($dateab)) . "T000000Z");
+        fwrite($kb_ical, "\r\nLOCATION:" . $obj_name);
+        fwrite($kb_ical, "\r\nSUMMARY:Belegung von " . $guest_name);
+        fwrite($kb_ical, "\r\nEND:VEVENT");
+    }
+    fwrite($kb_ical, "\r\nEND:VCALENDAR");
+    fclose($kb_ical);
 }

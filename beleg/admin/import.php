@@ -2,7 +2,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -47,18 +47,39 @@ $corrupt_date = 0;
         <form name="datei" action="index.php?in=imp&objekt=<?php echo $obj; ?>" method="post" enctype="multipart/form-data">
             <p>iCalendar Datei hochladen<br>
                 Nur Dateien mit der Endung .ics, .ifb, .iCal, .iFBf erlaubt</p>
-            <input type="file" name="datei"><br>
-            <input type="submit" value="Hochladen">
+            <label for="datei">Datei hochladen:</label><br><input type="file" name="datei"><br><br>
+            <input type="submit" value="Import">
+        </form>
+        <p>oder</p>
+        <form action="index.php?in=imp&objekt=<?php echo $obj; ?>" method="post">
+            <p>iCalendar von externer Seite (z.B. Google Kalender) importieren<br>
+                Nur Dateien mit der Endung .ics, .ifb, .iCal, .iFBf erlaubt</p>
+            <label for="pfad">Import aus Pfad:</label><br><input type="text" name="pfad" id="pfad"><br><br>
+            <input type="submit" value="Import">
         </form>
         <br>        
         <?php
-        if ($_FILES) {
-            $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));
-            $allowed_extensions = array('ics', 'ifb', 'iCal', 'iFBf');
-            if (!in_array($extension, $allowed_extensions)) {
-                die("Ungültige Dateiendung, nur Dateien mit der Endung .ics, .ifb, .iCal, .iFBf erlaubt");
+        if ($_FILES OR isset($_POST['pfad'])) {
+            if ($_FILES) {
+                $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));
+                $allowed_extensions = array('ics', 'ifb', 'iCal', 'iFBf');
+                if (!in_array($extension, $allowed_extensions)) {
+                    die("Ungültige Dateiendung, nur Dateien mit der Endung .ics, .ifb, .iCal, .iFBf erlaubt");
+                }
+                move_uploaded_file($_FILES['datei']['tmp_name'], "ical/upload/temp.ics");
+            } elseif (isset($_POST['pfad'])) {
+                $extension = strtolower(pathinfo($_POST['pfad'], PATHINFO_EXTENSION));
+                $allowed_extensions = array('ics', 'ifb', 'iCal', 'iFBf');
+                if (!in_array($extension, $allowed_extensions)) {
+                    die("Ungültige Dateiendung, nur Dateien mit der Endung .ics, .ifb, .iCal, .iFBf erlaubt");
+                }
+                $ch = curl_init($_POST['pfad']);
+                $zieldatei = fopen("ical/upload/temp.ics", "w");
+                curl_setopt($ch, CURLOPT_FILE, $zieldatei);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
+                curl_exec($ch);
+                fclose($zieldatei);
             }
-            move_uploaded_file($_FILES['datei']['tmp_name'], "ical/upload/temp.ics");
             $cal_import = file("ical/upload/temp.ics");
             for ($i = 0; $i < count($cal_import); $i++) {
                 $datean = strstr($cal_import[$i], 'DTSTART');
@@ -67,11 +88,9 @@ $corrupt_date = 0;
                     $output = array_slice($zeichen, -18, 8);
                     if (ctype_digit($output[3])) {
                         $datan = implode("", $output);
-                       
-                    }else{
+                    } else {
                         $output = array_slice($zeichen, -10, 8);
                         $datan = implode("", $output);
-                       
                     }
                     if (filter_var($datan, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "#^[0-9]{8}$#")))) {
                         $date = DateTime::createFromFormat('Ymd', $datan);
@@ -100,11 +119,9 @@ $corrupt_date = 0;
                     $output = array_slice($zeichen, -18, 8);
                     if (ctype_digit($output[3])) {
                         $datab = implode("", $output);
-                        
-                    }else{
+                    } else {
                         $output = array_slice($zeichen, -10, 8);
                         $datab = implode("", $output);
-                        
                     }
                     if (filter_var($datab, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "#^[0-9]{8}$#")))) {
                         $date = DateTime::createFromFormat('Ymd', $datab);
@@ -128,17 +145,10 @@ $corrupt_date = 0;
                     }
                 }
             }
-            if ($import == true) {
-                //$zaehler = $zaehler - $corrupt_date;
-                echo 'Kalender mit ' . $zaehler . ' Datensätzen importiert.<br>';
-                echo $fail_zaehler . ' Datensätze übersprungen.<br>';
-                echo $corrupt_date . ' Datensätze fehlerhaft.';
-                unlink("ical/upload/temp.ics");
-            } else {
-                echo 'Kalender mit ' . $zaehler . ' Datensätzen importiert.<br>';
-                echo $fail_zaehler . ' Datensätze übersprungen.<br>';
-                echo $corrupt_date . ' Datensätze fehlerhaft.';
-                unlink("ical/upload/temp.ics");
-            }
+
+            echo 'Kalender mit ' . $zaehler . ' Datensätzen importiert.<br>';
+            echo $fail_zaehler . ' Datensätze übersprungen.<br>';
+            echo $corrupt_date . ' Datensätze fehlerhaft.';
+            unlink("ical/upload/temp.ics");
         }
         ?>

@@ -2,7 +2,7 @@
 #########################################
 #Belegungsplan  			#
 #©2017 Daniel ProBer alias HackMeck	#
-#http://hackmeck.bplaced.net		#
+#https://www.hackmeck.de		#
 #GERMANY				#
 #					#
 #Mail: daproc@gmx.net			#
@@ -41,21 +41,34 @@ $obj = $_GET['objekt'];
     </head>
     <body>
         <?php
-        $sql = "SELECT name FROM objekt WHERE id = '" . $obj . "'";
+        $sql = "SELECT name, export_uri FROM objekt WHERE id = '" . $obj . "'";
         $db_erg = mysqli_query($db_link, $sql);
         while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
             $obj_name = $zeile['name'];
+            $exp_uri = $zeile['export_uri'];
         }
-        $rem_ical = scandir('ical');
-                        foreach ($rem_ical as $datei) {
-                            if ($datei != '.' && $datei != '..' && $datei != 'upload' && $datei != '.htaccess' && $datei != 'index.html') {
-                                unlink("ical/".$datei);
-                            }
-                        }
-        
-        $now = date('YmdHis');
-        $kb_ical = fopen('ical/'.$obj_name.$now.'.ics', 'a') or die('Datei kann nicht gespeichert werden!');
-        echo '<a href="ical/'.$obj_name.$now.'.ics">Download</a><br><br>';
+        if (file_exists("ical/" . $exp_uri)) {
+            unlink("ical/" . $exp_uri);
+        }
+        $kb_ical = fopen('ical/' . $exp_uri, 'a') or die('Datei kann nicht gespeichert werden!');
+        echo '<a href="ical/' . $exp_uri . '">Download</a><br><br>';
+        $path = $_SERVER['REQUEST_URI'];
+        $path = explode('/', $path);
+        $a = count($path);
+        $ordner = $path[$a - 2];
+        $link = $_SERVER['REQUEST_URI'];
+        $teile = explode('/', $link);
+        $key = array_search($ordner, $teile);
+        echo '<p>';
+        echo 'Folgende Zeile können sie bei anderen Programmen als Import-Pfad angeben:<br>';
+        echo '<textarea class="pfad" rows="1" cols="100">';
+        echo 'http://';
+        echo $_SERVER['SERVER_NAME'] . '/';
+        for ($i = 1; $i <= $key; $i++) {
+            echo $teile[$i] . '/';
+        }
+        echo 'ical/' . $exp_uri;
+        echo '</textarea></p>';
         fwrite($kb_ical, "BEGIN:VCALENDAR");
         echo "BEGIN:VCALENDAR<br>";
         fwrite($kb_ical, "\r\nVERSION:2.0");
@@ -103,8 +116,8 @@ $obj = $_GET['objekt'];
             $guest_mail = $zeile['email'];
             fwrite($kb_ical, "\r\nBEGIN:VEVENT");
             echo "BEGIN:VEVENT<br>";
-            fwrite($kb_ical, "\r\nUID:". date('Ymd') . "T" . date('His') . "Z-".$guest_mail);
-            echo "UID:". date('Ymd') . "T" . date('His') . "Z-".$guest_mail."<br>";
+            fwrite($kb_ical, "\r\nUID:" . date('Ymd') . "T" . date('His') . "Z-" . $guest_mail);
+            echo "UID:" . date('Ymd') . "T" . date('His') . "Z-" . $guest_mail . "<br>";
             fwrite($kb_ical, "\r\nDTSTAMP:" . date('Ymd') . "T" . date('His') . "Z");
             echo "DTSTAMP:" . date('Ymd') . "T" . date('His') . "Z<br>";
             fwrite($kb_ical, "\r\nDTSTART:" . date('Ymd', strtotime($datean)) . "T000000Z");
@@ -112,16 +125,16 @@ $obj = $_GET['objekt'];
             fwrite($kb_ical, "\r\nDTEND:" . date('Ymd', strtotime($dateab)) . "T000000Z");
             echo "DTEND:" . date('Ymd', strtotime($dateab)) . "T000000Z<br>";
             fwrite($kb_ical, "\r\nLOCATION:" . $obj_name);
-            echo "LOCATION:" . $obj_name."<br>";
+            echo "LOCATION:" . $obj_name . "<br>";
             fwrite($kb_ical, "\r\nSUMMARY:Belegung von " . $guest_name);
-            echo "SUMMARY:Belegung von " . $guest_name."<br>";
+            echo "SUMMARY:Belegung von " . $guest_name . "<br>";
             fwrite($kb_ical, "\r\nEND:VEVENT");
             echo "END:VEVENT<br>";
         }
         fwrite($kb_ical, "\r\nEND:VCALENDAR");
-        echo "CALSCALE:GREGORIAN<br>";
+        echo "END:VCALENDAR<br>";
         fclose($kb_ical);
-        echo '<br><br><a href="ical/'.$obj_name.$now.'.ics">Download</a>';
+        echo '<a href="ical/' . $exp_uri . '">Download</a>';
         ?>
     </body>
 </html>
