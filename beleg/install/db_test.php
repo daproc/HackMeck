@@ -2,7 +2,8 @@
 
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -86,7 +87,7 @@ $options  = array
     $import = explode(";", $import);
 
     foreach ($import as $imp) {
-        if ($imp != '' && $imp != ' ') {
+        if ($imp != '' && ctype_space($imp) != true) {
             mysqli_query($db_link, $imp);
         }
     }
