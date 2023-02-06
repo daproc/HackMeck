@@ -38,12 +38,29 @@ if (version_compare(PHP_VERSION, '5.1.2', '>=')) {
         spl_autoload_register('PHPMailerAutoload');
     }
 } else {
+
+    /**
+     * @todo The local PHP version is most likely above 5.1.1 at
+     * this point. Despite this code here therefore likely never being
+     * executed, PHP still parses the entire file and fatally
+     * exits on finding __autoload(), as such is deprecated or entirely
+     * removed from the newer PHP versions. Basically, the language
+     * switch above does not have the intended effect. The proper solution
+     * however would be to update to a newer version of PHPMailer,
+     * but this may then break other existing code or require more changes.
+     * The present PHPMailer is just too old for the presently too new
+     * PHP version, if this produces an error.
+     */
+    throw new Exception("PHP version is too old for autoloader for PHPMailer.");
+
     /**
      * Fall back to traditional autoload for old PHP versions
      * @param string $classname The name of the class to load
      */
+    /*
     function __autoload($classname)
     {
         PHPMailerAutoload($classname);
     }
+    */
 }
