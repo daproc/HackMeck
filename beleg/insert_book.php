@@ -190,7 +190,7 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
             echo '<br><a href="index.php?objekt='.$objekt.'">zurück</a>';
 
 //Mailadresse holen	
-            $mailadr = $pdo->prepare("SELECT email FROM users ORDER BY ID DESC LIMIT 1");
+            $mailadr = $pdo->prepare("SELECT email FROM users WHERE send = 1 ORDER BY ID DESC LIMIT 1");
             $mailadr->execute(array());
             while ($zeile_c = $mailadr->fetch()) {
                 $emailadr = $zeile_c['email'];
@@ -220,10 +220,10 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
             $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 
             // zusätzliche Header
-            $header .= 'From: ' . $emailadr . "\r\n";
+            $header .= 'Reply: ' . $emailadr . "\r\n";
             $header .= 'Bcc: ' . $emailadr . "\r\n";
             mail($mail, $betreff, $nachricht, $header);
-
+            echo "<br>Eine Email wurde an ".$mail." versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
 //url für bearbeitung
             $path = $_SERVER['REQUEST_URI'];
             $path = explode('/', $path);

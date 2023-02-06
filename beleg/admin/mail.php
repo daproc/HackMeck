@@ -1,6 +1,6 @@
 <?php
 #########################################
-#Belegungsplan   			#
+#Belegungsplan 0.6			#
 #©2017 Daniel ProBer alias HackMeck	#
 #http://hackmeck.bplaced.net		#
 #GERMANY				#
