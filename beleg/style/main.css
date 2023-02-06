@@ -1,0 +1,126 @@
+/*
+#########################################
+#Belegungsplan 0.7			#
+#©2017 Daniel ProBer alias HackMeck	#
+#http://hackmeck.bplaced.net		#
+#GERMANY				#
+#					#
+#Mail: daproc@gmx.net			#
+#Paypal: daproc@gmx.net			#
+#					#
+#Zeigt einen Kalender mit 		#
+#Belegung für ein Objekt an.		#
+#z.B. Ferienwohnung 			#
+#########################################
+
+        Belegungsplan ist Freie Software: Sie können ihn unter den Bedingungen
+  der GNU General Public License, wie von der Free Software Foundation,
+  Version 2 der Lizenz weiterverbreiten und/oder modifizieren.
+
+  Belegungsplan wird in der Hoffnung, dass er nützlich sein wird, aber
+  OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
+  Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+  Siehe die GNU General Public License für weitere Details.
+
+  Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+  Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
+*/
+.auswahl{
+    margin: 1em;
+}
+.info{
+    margin: 1em;
+    font-size: 1.5em;
+}
+.jahr{
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 1em;
+}
+.mkalender{
+    margin: 1em;
+    float: left;
+}
+.monatskalender tr td{
+    border: solid 1px;
+    text-align: center;
+    width: 2em;
+    height: 2em;
+    font-size: 1.5em;
+}
+.monatskalender{
+    border-collapse: collapse;
+    width: 100%;
+}
+.monatskalender th{
+    font-size: 1.5em;
+}
+.cal{
+    width: 100%;
+}
+.jahreskalender tr td{
+    border: solid 1px;
+    text-align: center;
+}
+form select{
+    margin: 0.1em;
+    padding: 0.1em;
+    font-size: 1.5em;
+}
+form input{
+    margin: 0.1em;
+    padding: 0.1em;
+    font-size: 1.5em;
+}
+
+.fehler{
+    width: 90%;
+    border: solid 1px;
+    background-color: red;
+    padding: 0.5em;
+    text-align: center;
+}
+footer{
+    clear: both;
+}
+.copy{
+    float: right;
+}
+.legend{
+    float: left;
+    padding: 0.5em;
+}
+.mobi {
+    display: block;
+}
+.web {
+    display: none;
+}
+
+
+@media only screen and (min-width:760px) and (max-width:1023px){
+    .mkalender{
+        margin: 1em;
+        float: left;
+        height: 25em;
+    }
+    .mobi {
+        display: block;
+    }
+    .web {
+        display: none;
+    }
+}
+@media only screen and (min-width:1024px){
+    .mkalender{
+        margin: 1em;
+        float: left;
+        height: 25em;
+    } 
+    .mobi {
+        display: none;
+    }
+    .web {
+        display: block;
+    }
+}

@@ -1,0 +1,98 @@
+/*
+#########################################
+#Belegungsplan 0.7			#
+#©2017 Daniel ProBer alias HackMeck	#
+#http://hackmeck.bplaced.net		#
+#GERMANY				#
+#					#
+#Mail: daproc@gmx.net			#
+#Paypal: daproc@gmx.net			#
+#					#
+#Zeigt einen Kalender mit 		#
+#Belegung für ein Objekt an.		#
+#z.B. Ferienwohnung 			#
+#########################################
+
+        Belegungsplan ist Freie Software: Sie können ihn unter den Bedingungen
+    der GNU General Public License, wie von der Free Software Foundation,
+    Version 2 der Lizenz weiterverbreiten und/oder modifizieren.
+
+    Belegungsplan wird in der Hoffnung, dass er nützlich sein wird, aber
+    OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
+    Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+    Siehe die GNU General Public License für weitere Details.
+
+    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+    Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
+*/
+
+fieldset{
+    padding-right: 1.5em;
+}
+form {
+    font-family: Times, serif; 
+    font-size: 110%;
+}
+form.color { 
+    line-height: 10px;
+}
+label.create {
+    clear: both;
+    width: 10em;
+    display: block;
+    float: left;
+    cursor: pointer;  /* Mauszeiger aendern */
+}
+input {
+    margin: 2px;
+    width: 100%;
+}
+select {
+    margin: 2px;
+    width: 100%;
+}
+textarea {
+    margin: 2px;
+    inline-box-align: initial;
+    width: 100%;
+    height: 10em;
+    font-family: Times, serif; 
+    font-size: 1.5em;
+}
+input:focus, textarea:focus {
+    background-color: yellow;
+}
+select:focus, textarea:focus {
+    background-color: yellow;
+}
+form.booking {
+    background-color: #eeeeff;
+    padding: 20px;
+    margin: 5px;
+    border: 1px solid silver;
+}
+div.fehler {
+    background-color: red;
+    padding: 1em;
+}
+@media only screen and (min-width:900px){
+    input {
+        margin: 1em;
+        width: 33%;
+    }
+    select {
+        margin: 1em;
+        width: 33%;
+    }
+    textarea {
+    margin: 2px;
+    inline-box-align: initial;
+    width: 33%;
+    height: 5em;
+    font-family: Times, serif; 
+    font-size: 1.5em;
+}
+    fieldset{
+        padding-right: 1.5em;
+    }
+}
