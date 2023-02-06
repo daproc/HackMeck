@@ -1,6 +1,7 @@
 ﻿#########################################
 #Belegungsplan xxx			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -49,12 +50,12 @@ MySQL-Datenbank
 
 2. Installation
 
-Nach dem Du die Downloaddatei entpackt hast, kannst Du den kompletten Ordner "belegbeta06" auf deinen 
-Webserver laden. Die beiden Ordner "belegbeta06/includes" und "belegbeta06/admin/includes" benötigen für die 
+Nachdem Du die Downloaddatei entpackt hast, kannst Du den kompletten Ordner "beleg" auf deinen 
+Webserver laden. Die beiden Ordner "beleg/includes" und "beleg/admin/includes" benötigen für die 
 Installation Schreibrechte, da dort die Zugangsdaten für die Datenbank abgelegt werden. 
-Öffne Deinen Browser und gehe auf Deine Internetadresse + Pfad zum Belegungsplan + belegbeta06/install.
+Öffne Deinen Browser und gehe auf Deine Internetadresse + Pfad zum Belegungsplan + beleg/install.
 
-Beispiel: www.deinedomain.de/unterordner/belegbeta06/install/  
+Beispiel: www.deinedomain.de/unterordner/beleg/install/
 
 Nun gibst Du Deine Zugangsdaten für die Datenbank ein und klickst auf "weiter". Das Script erstellt
 jetzt die Datenbanktabellen. Wenn alles geklappt hat, dann klickst Du auf die Schaltfläche weiter.
@@ -63,14 +64,14 @@ kannst Du jetzt eingeben. Die hier angegebene Emailadresse wird für Nachrichten
 Das Passwort muss aus mindestens 7 Zeichen bestehen. Bedenke, dass ein 
 sicheres Passwort aus einer Kombination von Ziffern, Großbuchstaben, Kleinbuchstaben und 
 Sonderzeichen besteht. Merke Dir Deine Zugangsdaten! Nachdem Du auf Abschicken geklickt hast, kannst
-Du dich auch schon Einloggen.
+Du dich auch schon einloggen.
 
 Zum Abschluß der Installation musst Du nur noch den Ordner "install/" löschen, und den beiden Ordnern 
-"belegbeta06/includes" und "belegbeta06/admin/includes" die Schreibrechte wieder entziehen. 
+"beleg/includes" und "beleg/admin/includes" die Schreibrechte wieder entziehen. 
 
 3. Objekt (Ferienwohnung / -haus) anlegen
 
-Nachdem Login klickst Du auf Ferienobjekte -> verwalten.
+Nach dem Login klickst Du auf Ferienobjekte -> verwalten.
 Die Liste Deiner Objekte ist noch leer, deshalb wählst Du "neues Objekt anlegen".
 Im folgenden Formular gibst Du den Namen Deines Ferienobjekt ein, die anderen Felder sind optional, 
 und klickst auf "speichern"! Die Felder Max Gäste und Max Hunde sollten dennoch ausgefüllt werden.
@@ -78,7 +79,7 @@ Diese sind für das Buchungssystem von Bedeutung. Wenn alles richtig war kannst 
 
 4. Buchungsformulare anlegen
 
-Gehe auf Buchungen -> Formulare -> Formular für ...
+Gehe auf Ferienobjekte -> Formulare -> Formular für ...
 Hier kannst Du in der ersten Spalte die Felder auswählen, die auf Deiner Webseite angezeigt werden sollen.
 In der zweiten Spalte kannst Du wählen ob der Gast das Feld ausfühlen muss. Ja = Pflichfeld Nein = nicht Notwendig.
 Mit einem Klick auf "Formular speichern" ist dieses auch angelegt.
@@ -122,22 +123,22 @@ Füge im Headbereich Deiner Seite (als zwischen <head> und </head>) folgenden Co
 
 Eventuell musst Du noch den Pfad zum Belegungsplan anpassen.
 
-Jetzt gehst Du im Adminbereich auf Ferienobjekte -> verwalten. Im folgenden Fenster klickst Du bei dem 
-Ferienobjekt dessen Kalender Du ausgeben möchtest auf "bearbeiten".
+Jetzt gehst Du im Adminbereich auf Ferienobjekte -> Verwalten. Im folgenden Fenster klickst Du bei dem 
+Ferienobjekt dessen Kalender, welchen Du ausgeben möchtest auf "bearbeiten".
 
 Hier siehst Du nun den Code, den Du auf einer beliebigen Seite ausgeben kannst. Kopiere den Code von 
 "<div>" bis "</div>" und füge diesen in den Quellcode Deiner Seite ein. Platziere diesen dort, 
-wo der Kalender zu sehen Sein soll.
+wo der Kalender zu sehen sein soll.
 
 Verfahre so auch mit allen anderen Ferienwohnungen.
 
 6.2 Direkt auf den Kalender verlinken
-Den Kalender kannst Du auch direkt aufrufen in dem Du einen Link auf den gewünschten Kalender setzt.
+Den Kalender kannst Du auch direkt aufrufen indem Du einen Link auf den gewünschten Kalender setzt.
 Der Link könnte so aussehen:
 
 <a href="beleg/index.php?objekt=1">Belegung und Buchung</a>
 
-Bei "objekt=1" Ersetzt Du die 1 mit der ID des gewünschten Objekts.
+Bei "objekt=1" ersetzt Du die 1 mit der ID des gewünschten Objekts.
 Je nach Installationsort musst Du noch den Pfad anpassen.
 	
 7. Verwendung
@@ -166,11 +167,11 @@ Buchungsanfragen kannst Du auch mit dem Link in der Email die Du bekommst bestä
 Du kannst auch Buchungsanfragen widerrufen indem Du "Buchungen -> Buchungen" wählst.
 Der Ablauf ist der gleiche wie beim Bestätigen.
 
-Die Farben des Kalender änderst Du über Design -> Farben. Hier kannst Du alle Farben auswählen. Mit einem
+Die Farben des Kalender änderst Du über Einstellungen -> Farben. Hier kannst Du alle Farben auswählen. Mit einem
 Klick auf Speichern werden Deine gewählten Farben übernommen. Unten siehst Du wie Deine Auswahl aussieht.
 
 Du kannst wählen ob der Kalender ein ganzes Jahr oder nur einzelne Monate anzeigen soll. Gehe dazu auf 
-Design -> Anzeige. Klicke Jahres-, Monatsansicht oder Automatisch an, wähle wieviele Monatskalender angezeigt werden 
+Einstellungen -> Anzeige. Klicke Jahres-, Monatsansicht oder Automatisch an, wähle wieviele Monatskalender angezeigt werden 
 sollen und danach auf speichern.
 
 Bei Automatisch wird je nach Gerät (Computer, Tablet oder Handy) der passende Kalender angezeigt.
@@ -183,12 +184,11 @@ Dann öffnet sich ein Formular wo er seine Kontaktdaten eingeben kann.
 Ich wünsche Dir viel Freude mit dem Belegungsplan und vor allem viel Erfolg!
 Daniel Procek-Berger alias HackMeck
 
-	
+
 Solltest Du Hilfe benötigen, kannst Du mir eine Email schreiben. Über ein "Dankeschön" freue ich mich 
 natürlich auch.
 Wenn Dich meine Arbeit überzeugt kannst Du mir über Paypal auch gern eine kleine Spende zukommen lassen,
 meine Paypaladresse lautet daproc@gmx.net.
- 
 
 
- 
+
