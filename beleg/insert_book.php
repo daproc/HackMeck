@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -143,7 +144,7 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
                 $booking[] = $date->format('Y-m-d');
             }
 
-            $statement = $pdo->prepare("SELECT datean, dateab FROM times WHERE objekt_id = " . $objekt . " AND confirmed = 1 ORDER BY datean");
+            $statement = $pdo->prepare("SELECT datean, dateab FROM times WHERE objekt_id = ? AND confirmed = 1 ORDER BY datean");
             $statement->execute(array($objekt));
             while ($zeile = $statement->fetch()) {
                 $datean = new DateTime($zeile['datean']);

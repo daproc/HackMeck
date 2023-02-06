@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -55,9 +56,9 @@ while($zeile_c = $people->fetch()) {
 $remote = 24519;
 $max_kind = $max_pers - 1;
 if (filter_input(INPUT_GET, 'date', FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"#^[0-9]{4}[-][0-9]{1,2}[-][0-9]{1,2}$#")))) {
-    $timestamp = strtotime($_GET[date]); //Anreise uebernehmen
+    $timestamp = strtotime($_GET['date']); //Anreise uebernehmen
 } else {
-    echo '<div class="error">Ein Fehler ist aufgetretten!</div>';
+    echo '<div class="error">Ein Fehler ist aufgetreten!</div>';
 }
 /*if (!empty($_GET[date])) {
     $timestamp = strtotime($_GET[date]);
@@ -96,3 +97,5 @@ $ab = date("Y-m-d", strtotime('+5 days', $timestamp));
         echo '</fieldset>';
         echo '</form>';
         ?>
+    </body>
+</html>
