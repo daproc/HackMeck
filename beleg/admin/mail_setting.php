@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -48,8 +49,19 @@ define("SMTPPORT", "' . $port . '");
         $handle = fopen("includes/smtp-config.php", "w");
         fwrite($handle, $inhalt_smtp);
         fclose($handle);
+        include 'includes/smtp-config.php';
     } else {
         $msg_pass = 'Passwörter stimmen nicht überein!';
+
+        $filename = 'includes/smtp-config.php';
+        if (file_exists($filename)) {
+            include 'includes/smtp-config.php';
+        } else {
+            define("SMTPSERVER", "");
+            define("SMTPUSER", "");
+            define("SMTPPASSWORD", "");
+            define("SMTPPORT", "25");
+        }
     }
 } elseif (empty($_POST['check'])) {
     $filename = 'includes/smtp-config.php';
