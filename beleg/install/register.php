@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -64,7 +65,7 @@ if(isset($_GET['register'])) {
  $error = true;
  }
  if(strlen($passwort) <= 6) {
- echo 'Bitte ein Passwort mit mindestens 6 Zeichen angeben<br>';
+ echo 'Bitte ein Passwort mit mindestens 7 Zeichen angeben<br>';
  $error = true;
  }
  if($passwort != $passwort2) {
