@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -37,7 +38,7 @@ if ($controll != 24519) {
         <style>
 <?php
 include ('css/admin_css.php');
-include ('includes/beleg-config.php');
+include_once ('includes/beleg-config.php');
 
 $db_link = mysqli_connect(
         HOST, USER, PASSWORD, DATABASE
