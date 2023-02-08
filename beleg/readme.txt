@@ -97,7 +97,7 @@ Beispiel anhand von GMX
 Server: mail.gmx.net
 Nutzername: Deine Emailadresse
 Passwort: Dein GMX Passwort
-Port: kann auf 25 bleiben
+Port: kann auf 587 bleiben
 
 5.2 Text für Emails an den Gast
 

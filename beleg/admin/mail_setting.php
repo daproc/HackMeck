@@ -60,7 +60,7 @@ define("SMTPPORT", "' . $port . '");
             define("SMTPSERVER", "");
             define("SMTPUSER", "");
             define("SMTPPASSWORD", "");
-            define("SMTPPORT", "25");
+            define("SMTPPORT", "587");
         }
     }
 } elseif (empty($_POST['check'])) {
@@ -71,7 +71,7 @@ define("SMTPPORT", "' . $port . '");
         define("SMTPSERVER", "");
         define("SMTPUSER", "");
         define("SMTPPASSWORD", "");
-        define("SMTPPORT", "25");
+        define("SMTPPORT", "587");
     }
 }
 ?>

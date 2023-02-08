@@ -2,7 +2,8 @@
 
 #########################################
 #Belegungsplan   			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -27,6 +28,8 @@
   Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
  */
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $controll = $remote;
 if ($controll != 24519) {
@@ -60,7 +63,9 @@ $header .= 'Bcc: ' . $emailadr . "\n";
 $filename = 'includes/smtp-config.php';
 if (file_exists($filename)) {
     include 'includes/smtp-config.php';
-    require 'PHPMailerAutoload.php';
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
     $hmMailer = new PHPMailer;
     $hmMailer->CharSet = 'UTF-8';
     $hmMailer->isSMTP();
@@ -83,9 +88,9 @@ if (file_exists($filename)) {
     $hmMailer->addAddress($mail, $mail);
     $hmMailer->addBCC($emailadr, $emailadr);
     $hmMailer->addAttachment($anhang_pfad);
-    $hmMailer->isHTML(true);
     $hmMailer->Subject = $betreff;
     $hmMailer->Body = $nachricht;
+    $hmMailer->isHTML(true);
     $hmMailer->AltBody = strip_tags($hmMailer->Body);
     if (!$hmMailer->send()) {
         echo 'Mailer Error: ' . $hmMailer->ErrorInfo;
@@ -93,7 +98,8 @@ if (file_exists($filename)) {
         echo "<br>Eine Email wurde an " . $mail . " versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
     }
 } else {
-    require 'PHPMailerAutoload.php';
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
     $hmMailer = new PHPMailer;
     $hmMailer->CharSet = 'UTF-8';
     $hmMailer->From = $emailadr;
@@ -101,9 +107,9 @@ if (file_exists($filename)) {
     $hmMailer->addAddress($mail, $mail);
     $hmMailer->addBCC($emailadr, $emailadr);
     $hmMailer->addAttachment($anhang_pfad);
-    $hmMailer->isHTML(true);
     $hmMailer->Subject = $betreff;
     $hmMailer->Body = $nachricht;
+    $hmMailer->isHTML(true);
     $hmMailer->AltBody = strip_tags($hmMailer->Body);
     if (!$hmMailer->send()) {
         echo 'Mailer Error: ' . $hmMailer->ErrorInfo;
@@ -111,6 +117,14 @@ if (file_exists($filename)) {
         echo "<br>Eine Email wurde an " . $mail . " versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
     }
 }
+/** @todo Hier kommen die Daten vom CKEditor vom Nutzer und gehen direkt sowohl
+  * in die HTML-E-Mail als auch in die Ausgabe hier. Es gab vorher mal ein
+  * json_encode() beim Speichern in die Datenbank, evtl. um die HTML-Sonderzeichen
+  * und Tags auf diese Weise kaputt zu machen, wurde dann aber nur für den CKEditor
+  * rückgängig gemacht, nicht aber für die HTML-E-Mail. Der CKEditor scheint immerhin
+  * alle XML-Sonderzeichen sauber zu escapen, in der Form kommt das auch in die
+  * Datenbank. Bitte aber trotzdem alle Verwendungen überprüfen und ggf. korrigieren,
+  * sowie auch etwa die Übergabe über $_POST/$_GET. */
 echo '<p>Die Nachricht wurde erfolgreich versendet</p>';
 echo '<p><b>An: </b><br>' . $mail . '</p>';
 echo '<p><b>Betreff: </b><br>' . $betreff . '</p>';

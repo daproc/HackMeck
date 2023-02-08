@@ -52,8 +52,8 @@ mysqli_set_charset($db_link, 'utf8');
 <?php
 if (!empty($_POST['id_text']) && isset($_POST['id_text'])) {
     $id_text = $_POST['id_text'];
-    $best_text = json_encode($_POST['best_text']);
-    $buch_text = json_encode($_POST['buch_text']);
+    $best_text = $_POST['best_text'];
+    $buch_text = $_POST['buch_text'];
     $old_file = $_POST['old_file'];
     if(isset($_POST['del_file'])){
         $del_file = $_POST['del_file'];
@@ -97,9 +97,9 @@ $stmt = mysqli_prepare($db_link, $text);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 while ($zeile_c = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $best_text = json_decode($zeile_c['best_text']);
+    $best_text = $zeile_c['best_text'];
     $id_text = $zeile_c['id'];
-    $buch_text = json_decode($zeile_c['buch_text']);
+    $buch_text = $zeile_c['buch_text'];
     if(empty($zeile_c['anhang_buch'])){
     $anhang_buch = 'Keine Datei';
     }else{
@@ -114,7 +114,7 @@ echo '<label for="best_text" class="create">Text für die Buchungsbestätigung:<
 z. Bsp.:</p> 
 <p>Sehr geehrte Frau Mustermann,</p>
 <p>Hiermit bestätigen wir Ihre Buchung vom 5.5.2018 bis 10.05.2018.<br>
-<i>Hier kommt dann Ihr Text</i></p><textarea name="best_text" cols="100" rows="20">' . $best_text . '</textarea><br><br>';
+<i>Hier kommt dann Ihr Text</i></p><textarea name="best_text" cols="100" rows="20">' . htmlspecialchars($best_text) . '</textarea><br><br>';
 echo '<p>Anhänge wie Rechnung oder AGB´s können während der Buchungsbestätigung hinzugefügt werden.</p>';
 echo '</fieldset><br><br>';
 echo '<fieldset>';
@@ -123,7 +123,7 @@ echo '<label for="buch_text" class="create">Text für die Buchungsanfrage:</labe
 z. Bsp.:</p> 
 <p>Sehr geehrte Frau Mustermann,</p>
 <p>
-<i>Hier kommt dann Ihr Text</i></p><textarea name="buch_text" cols="100" rows="20">' . $buch_text . '</textarea><br>';
+<i>Hier kommt dann Ihr Text</i></p><textarea name="buch_text" cols="100" rows="20">' . htmlspecialchars($buch_text) . '</textarea><br>';
 echo '<p>Hier können Sie eine Datei, z.B. Ihre AGB´s auswählen.</p>';
 echo '<label for="datei">Anhang: <input name="datei" type="file" size="50" accept="file/*"></label><br>';
 echo 'Ausgewählte Datei: '.$anhang_buch.'<br>';

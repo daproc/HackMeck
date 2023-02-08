@@ -63,6 +63,7 @@ mysqli_set_charset($db_link, 'utf8');
     mysqli_stmt_bind_param($stmt, 's', $user_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
+    $zuname = "";
     echo '<table>';
     while ($zeile_c = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         echo '<tr><td>Anrede:</td><td>' . $zeile_c['anrede'] . '</td></tr>';
@@ -124,8 +125,9 @@ mysqli_set_charset($db_link, 'utf8');
             $stmt = mysqli_prepare($db_link, $text);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
+            $best_text = "";
             while ($zeile_c = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $best_text = json_decode($zeile_c['best_text']);
+                $best_text = $zeile_c['best_text'];
             }
             $mail_bcc = "SELECT email FROM users ORDER BY ID DESC LIMIT 1";
             $stmt = mysqli_prepare($db_link, $mail_bcc);
@@ -138,6 +140,9 @@ mysqli_set_charset($db_link, 'utf8');
 
             //Buchungsbestätigung versenden
             $betreff = 'Buchungsbestätigung ' . $obj_name;
+            $anr = "";
+            /** @todo Auch hier die Strings, die in die HTML-Mail und CKEditor
+              * einfließen, mit htmlspecialchars() escapen? */
             if ($anrede == 'Frau') {
                 $anr = 'Sehr geehrte Frau ' . $zuname . ',';
             } elseif ($anrede == 'Herr') {
@@ -147,7 +152,7 @@ mysqli_set_charset($db_link, 'utf8');
             }
             $nachricht = '
 <p>' . $anr . '</p>
-<p>Hiermit bestätigen wir Ihre Buchung vom ' . $datean . ' bis ' . $dateab . '.<br>
+<p>Hiermit bestätigen wir Ihre Buchung vom ' . $datean . ' bis ' . $dateab . '.<br/>
 ' . $best_text . '</p>';
 
             echo '<br><div class=mailform><form action="index.php?in=mail" enctype="multipart/form-data" method="post">';

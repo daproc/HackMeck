@@ -32,6 +32,10 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 /* $db_link = mysqli_connect(
   HOST, USER, PASSWORD, DATABASE
   ); */
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,6 +52,13 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
         $referer = getenv("HTTP_REFERER");
         if (empty($_POST['an']) && empty($_POST['ab']) && !isset($_POST['an']) && !isset($_POST['ab'])) {
             echo '<div class="error">Buchung nur über Belegungsplan möglich!</div>';
+
+            $objekt = "";
+
+            if (isset($_POST['objekt']) == true) {
+                $objekt = htmlspecialchars($_POST['objekt']);
+            }
+
             echo '<a href="index.php?objekt=' . $objekt . '"> Zurück </a>';
         } else {
 
@@ -200,6 +211,7 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 //Textbaustein holen
             $text = $pdo->prepare("SELECT buch_text, anhang_buch FROM mail_text ORDER BY ID DESC LIMIT 1");
             $text->execute(array());
+            $buch_text = "";
             while ($zeile_c = $text->fetch()) {
                 $buch_text = $zeile_c['buch_text'];
                 $anhang_buch = $zeile_c['anhang_buch'];
@@ -209,6 +221,11 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 //Mail an Gast versenden
             // Betreff
             $betreff = 'Ihre Buchung';
+            $anr = "";
+            /** @todo Sind eigentlich alle ab hier folgenden Variablenwerte, die nun
+              * in die HTML-Mail einfließen, eigentlich gegen Injection schon in der
+              * Datenbank gesichert? Denn eigentlich sollten sie es erst hier bei der
+              * Verwendung werden, etwa mit htmlspecialchars()... */
             if ($anrede == 'Frau') {
                 $anr = 'Sehr geehrte Frau ' . $name . ',';
             } elseif ($anrede == 'Herr') {
@@ -216,14 +233,22 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
             } else {
                 $anr = 'Sehr geehrte/ r Frau/ Herr ' . $name . ',';
             }
-            $nachricht = '
-<p>' . $anr . '</p>
-<p>' . $buch_text . '</p>';
+            $nachricht = '<html>'.
+                           '<head>'.
+                             '<meta charset="utf-8"/>'.
+                           '</head>'.
+                           '<body>'.
+                             '<p>' . $anr . '</p>'.
+                             '<p>' . $buch_text . '</p>'.
+                           '</body>'.
+                         '</html>';
 
             $filename = 'admin/includes/smtp-config.php';
             if (file_exists($filename)) {
                 include 'admin/includes/smtp-config.php';
-                require 'PHPMailerAutoload.php';
+                require 'PHPMailer/src/Exception.php';
+                require 'PHPMailer/src/PHPMailer.php';
+                require 'PHPMailer/src/SMTP.php';
                 $hmMailer = new PHPMailer;
                 $hmMailer->CharSet = 'UTF-8';
                 $hmMailer->isSMTP();
@@ -246,9 +271,9 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
                 $hmMailer->addAddress($mail, $mail);
                 $hmMailer->addBCC($emailadr, $emailadr);
                 $hmMailer->addAttachment($datei);
-                $hmMailer->isHTML(true);
                 $hmMailer->Subject = $betreff;
                 $hmMailer->Body = $nachricht;
+                $hmMailer->isHTML(true);
                 $hmMailer->AltBody = strip_tags($hmMailer->Body);
                 if (!$hmMailer->send()) {
                     echo 'Mailer Error: ' . $hmMailer->ErrorInfo;
@@ -256,7 +281,8 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
                     echo "<br>Eine Email wurde an " . $mail . " versendet. Sehen sie bitte auch in Ihrem Spamordner nach.";
                 }
             } else {
-                require 'PHPMailerAutoload.php';
+                require 'PHPMailer/src/Exception.php';
+                require 'PHPMailer/src/PHPMailer.php';
                 $hmMailer = new PHPMailer;
                 $hmMailer->CharSet = 'UTF-8';
                 $hmMailer->From = $emailadr;
@@ -264,9 +290,9 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
                 $hmMailer->addAddress($mail, $mail);
                 $hmMailer->addBCC($emailadr, $emailadr);
                 $hmMailer->addAttachment($datei);
-                $hmMailer->isHTML(true);
                 $hmMailer->Subject = $betreff;
                 $hmMailer->Body = $nachricht;
+                $hmMailer->isHTML(true);
                 $hmMailer->AltBody = strip_tags($hmMailer->Body);
                 if (!$hmMailer->send()) {
                     echo 'Mailer Error: ' . $hmMailer->ErrorInfo;
@@ -296,12 +322,15 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
             $betreff = 'neue Buchungsanfrage';
 
             $nachricht = '<html>
-					<meta charset="utf-8">
+					<head>
+					<meta charset="utf-8"/>
+					</head>
 					<body>
 					<p>Sie haben eine neue Buchungsanfrage, klicken sie auf folgenden Link um die Buchung zu bearbeiten</p>
 					<p><a href="http://' . $uri . '">' . $uri . '</a></p>
 					</body></html>';
 
+	    /** @todo Nirgends in Verwendung? */
             $header = 'MIME-Version: 1.0' . "\r\n";
             $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 
@@ -327,9 +356,9 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
                 $aMailer->From = $emailadr;
                 $aMailer->FromName = $_SERVER['SERVER_NAME'];
                 $aMailer->addAddress($emailadr, $emailadr);
-                $aMailer->isHTML(true);
                 $aMailer->Subject = $betreff;
                 $aMailer->Body = $nachricht;
+                $aMailer->isHTML(true);
                 $aMailer->AltBody = strip_tags($aMailer->Body);
                 if (!$aMailer->send()) {
                     //echo 'Mailer Error: ' . $aMailer->ErrorInfo;
@@ -340,9 +369,9 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
                 $aMailer->From = $emailadr;
                 $aMailer->FromName = $_SERVER['SERVER_NAME'];
                 $aMailer->addAddress($emailadr, $emailadr);
-                $aMailer->isHTML(true);
                 $aMailer->Subject = $betreff;
                 $aMailer->Body = $nachricht;
+                $aMailer->isHTML(true);
                 $aMailer->AltBody = strip_tags($aMailer->Body);
                 if (!$aMailer->send()) {
                     //echo 'Mailer Error: ' . $aMailer->ErrorInfo;
