@@ -32,14 +32,14 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 ?>
 <!DOCTYPE html>
 <html>
-    <meta charset="utf-8">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style/main.css">
         <link rel="stylesheet" href="style/book.css">
         <title>Buchung</title> 
-        <style>
+    </head>
+    <body id="kontaktseite" onload="document.booking.ab.focus();">
 <?php
 if (filter_input(INPUT_GET, 'objekt', FILTER_VALIDATE_INT)) {
     $objekt = filter_input(INPUT_GET, 'objekt', FILTER_VALIDATE_INT); //Objekt uebernehmen
@@ -47,33 +47,41 @@ if (filter_input(INPUT_GET, 'objekt', FILTER_VALIDATE_INT)) {
     echo '<div class="error">Kein gültiges Objekt gewählt</div>';
     die();
 }
+$max_pers = 0;
+$max_tier = 0;
+$exists = false;
 $people = $pdo->prepare("SELECT max_people, max_tier FROM objekt WHERE id=?");
 $people->execute(array($objekt)); 
 while($zeile_c = $people->fetch()) {
     $max_pers = $zeile_c['max_people'];
     $max_tier = $zeile_c['max_tier'];
+    $exists = true;
+}
+if ($exists != true) {
+    /** @todo In der CSS heisst die Klasse allerdings "fehler"... */
+    echo '<div class="error">Objekt existiert nicht!</div>';
 }
 $remote = 24519;
 $max_kind = $max_pers - 1;
+// NULL in $timestamp nach date() im Fehlerfall sorgt auch fuer den Tag heute.
+$timestamp = NULL;
 if (filter_input(INPUT_GET, 'date', FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"#^[0-9]{4}[-][0-9]{1,2}[-][0-9]{1,2}$#")))) {
     $timestamp = strtotime($_GET['date']); //Anreise uebernehmen
 } else {
     echo '<div class="error">Ein Fehler ist aufgetreten!</div>';
 }
-/*if (!empty($_GET[date])) {
-    $timestamp = strtotime($_GET[date]);
+/*if (!empty($_GET['date'])) {
+    $timestamp = strtotime($_GET['date']);
 } else {
     $timestamp = strtotime("now");
 }*/
 $an = date("Y-m-d", $timestamp);
 $ab = date("Y-m-d", strtotime('+5 days', $timestamp));
 ?>
-        </style>
-    </head>
-    <body id="kontaktseite" onload="document.booking.ab.focus();">
         <?php
         $form = $pdo->prepare("SELECT json_code FROM forms WHERE objektid=?");
         $form->execute(array($objekt));
+        $json_code = "[]";
         while ($zeile_c = $form->fetch()) {
             $json_code = $zeile_c['json_code'];
         }

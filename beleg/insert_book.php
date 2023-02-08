@@ -35,8 +35,8 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 ?>
 <!DOCTYPE html>
 <html>
-    <meta charset="utf-8">
     <head  lang="de">
+        <meta charset="utf-8">
         <link rel="stylesheet" href="css/book.css">
         <title>Belegung</title>
         <style>
@@ -161,6 +161,7 @@ $pdo = new PDO(SERVER, USER, PASSWORD, $options);
 //überprüfung der Personenzahl
             $chk_guests = $pdo->prepare("SELECT max_people FROM objekt WHERE id = ?");
             $chk_guests->execute(array($objekt));
+            $max_guest = 0;
             while ($zeile_c = $chk_guests->fetch()) {
                 $max_guest = $zeile_c['max_people'];
             }
