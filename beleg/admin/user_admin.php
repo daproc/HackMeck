@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -36,15 +37,6 @@ $db_link = mysqli_connect(
         HOST, USER, PASSWORD, DATABASE
 );
 ?>
-<!DOCTYPE html> 
-<html> 
-    <head>
-        <meta charset="utf-8">
-        <title>Nutzer-Verwaltung</title> 
-        
-
-    </head> 
-    <body>
         <p><a href="index.php?in=reg" title="neuen Nutzer anlegen">neuen Nutzer anlegen</a></p>
         <?php
         if (isset($_POST['send'])) {

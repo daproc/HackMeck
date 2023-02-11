@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -26,6 +27,8 @@
   Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
  */
 
+/** @todo Der iCal-Import ist wahrscheinlich schon seit längerer Zeit defekt. */
+
 $controll = $remote;
 if ($controll != 24519) {
     echo 'Kein Zugriff!';
@@ -37,27 +40,20 @@ $zaehler = 0;
 $fail_zaehler = 0;
 $corrupt_date = 0;
 ?>
-<!DOCTYPE html>
-<html lang="de">
-    <head>
-        <meta charset="UTF-8">
-        <title>Import</title>
-    </head>
-    <body>
-        <form name="datei" action="index.php?in=imp&objekt=<?php echo $obj; ?>" method="post" enctype="multipart/form-data">
-            <p>iCalendar Datei hochladen<br>
+        <form name="datei" action="index.php?in=imp&amp;objekt=<?php echo $obj; ?>" method="post" enctype="multipart/form-data">
+            <p>iCalendar Datei hochladen<br/>
                 Nur Dateien mit der Endung .ics, .ifb, .iCal, .iFBf erlaubt</p>
-            <label for="datei">Datei hochladen:</label><br><input type="file" name="datei"><br><br>
-            <input type="submit" value="Import">
+            <label for="datei">Datei hochladen:</label><br/><input type="file" name="datei"/><br/><br/>
+            <input type="submit" value="Import"/>
         </form>
         <p>oder</p>
-        <form action="index.php?in=imp&objekt=<?php echo $obj; ?>" method="post">
-            <p>iCalendar von externer Seite (z.B. Google Kalender) importieren<br>
+        <form action="index.php?in=imp&amp;objekt=<?php echo $obj; ?>" method="post">
+            <p>iCalendar von externer Seite (z.B. Google Kalender) importieren<br/>
                 Nur Dateien mit der Endung .ics, .ifb, .iCal, .iFBf erlaubt</p>
-            <label for="pfad">Import aus Pfad:</label><br><input type="text" name="pfad" id="pfad"><br><br>
-            <input type="submit" value="Import">
+            <label for="pfad">Import aus Pfad:</label><br/><input type="text" name="pfad" id="pfad"/><br/><br/>
+            <input type="submit" value="Import"/>
         </form>
-        <br>        
+        <br/>        
         <?php
         if ($_FILES OR isset($_POST['pfad'])) {
             if ($_FILES) {
@@ -146,8 +142,8 @@ $corrupt_date = 0;
                 }
             }
 
-            echo 'Kalender mit ' . $zaehler . ' Datensätzen importiert.<br>';
-            echo $fail_zaehler . ' Datensätze übersprungen.<br>';
+            echo 'Kalender mit ' . $zaehler . ' Datensätzen importiert.<br/>';
+            echo $fail_zaehler . ' Datensätze übersprungen.<br/>';
             echo $corrupt_date . ' Datensätze fehlerhaft.';
             unlink("ical/upload/temp.ics");
         }

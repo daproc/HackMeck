@@ -37,15 +37,6 @@ $db_link = mysqli_connect(
         HOST, USER, PASSWORD, DATABASE
 );
 ?>
-<!DOCTYPE html> 
-<html> 
-    <head>
-        <meta charset="utf-8">
-        <title>Registrierung</title> 
-        <link rel="stylesheet" href="css/main.css" />
-    </head> 
-    <body>
-
         <?php
         $showFormular = true; //Variable ob das Registrierungsformular angezeigt werden soll
 
@@ -91,7 +82,7 @@ $db_link = mysqli_connect(
             if (!$error) {
                 $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
 
-                $insert = "INSERT INTO users (email, passwort, name) VALUES (?, ?, ?)";
+                $insert = "INSERT INTO users (email, passwort, name, send) VALUES (?, ?, ?, 0)";
                 $stmt = mysqli_prepare($db_link, $insert);
                 mysqli_stmt_bind_param($stmt, 'sss', $email, $passwort_hash, $name);
                 mysqli_stmt_execute($stmt);
@@ -108,33 +99,32 @@ $db_link = mysqli_connect(
         if ($showFormular) {
             ?>
 
-            <form action="?register=1&in=reg" method="post">
+            <form action="?register=1&amp;in=reg" method="post">
                 <fieldset>
                     <legend>Benutzer</legend>
                     <p>
                         <label for="username">Benutzername</label>
-                        <input type="text" size="40"  maxlength="250" name="name"><br>
+                        <input type="text" size="40"  maxlength="250" name="name"/><br/>
                     </p>
                     <p>
                         <label for="email">Email</label>
-                        <input type="email" size="40" maxlength="250" name="email"><br><br>
+                        <input type="email" size="40" maxlength="250" name="email"/><br/><br/>
                     </p>
                     <p>
                         <label for="passwort">Passwort</label>
-                        <input type="password" size="40"  maxlength="250" name="passwort"><br>
+                        <input type="password" size="40"  maxlength="250" name="passwort"/><br/>
                     </p>
-                    <label for="passwort2">Passwort wiederholen</label>
-                    <input type="password" size="40" maxlength="250" name="passwort2"><br><br>
+                    <p>
+                        <label for="passwort2">Passwort wiederholen</label>
+                        <input type="password" size="40" maxlength="250" name="passwort2"/><br/><br/>
                     </p>
                     <p>
                         <label></label>
-                        <input type="submit" value="Abschicken">
+                        <input type="submit" value="Abschicken"/>
+		    </p>
                 </fieldset>	
             </form>
 
             <?php
         } //Ende von if($showFormular)
         ?>
-
-    </body>
-</html>

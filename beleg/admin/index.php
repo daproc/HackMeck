@@ -86,10 +86,9 @@ while ($zeile_s = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
 ?>
 <!DOCTYPE html>
 <html lang="de">
-    <meta charset="utf-8">
-    <meta name="robots" content="noindex">
-
     <head>
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex">
         <style>
 <?php
 include ('css/admin_css.php');
