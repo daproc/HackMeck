@@ -50,6 +50,8 @@ mysqli_set_charset($db_link, 'utf8');
     </head>
     <body>
 <?php
+$best_text = "";
+$buch_text = "";
 if (!empty($_POST['id_text']) && isset($_POST['id_text'])) {
     $id_text = $_POST['id_text'];
     $best_text = $_POST['best_text'];
@@ -69,7 +71,7 @@ if (!empty($_POST['id_text']) && isset($_POST['id_text'])) {
         if (!in_array($extension, $allowed_extensions)) {
             die("Ungültige Dateiendung, nur Dateien mit der Endung 'pdf','txt','doc','docx','odt' erlaubt");
         }
-        
+
         $anhang = 'files/upload/' . $filename . '.' . $extension;
         move_uploaded_file($_FILES['datei']['tmp_name'], $anhang);
         $anhang_pfad = 'files/upload/' . $filename . '.' . $extension;
@@ -84,7 +86,7 @@ if (!empty($_POST['id_text']) && isset($_POST['id_text'])) {
     if (!$stmt) {
         die('Ungültige Abfrage: ' . mysqli_error($db_link));
     } else {
-        echo 'Daten geändert<br>';
+        echo 'Daten geändert<br/>';
     }
 }
 ?>
@@ -107,34 +109,34 @@ while ($zeile_c = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     }
 }
 
-echo '<br><div><form action=index.php?in=text method="post" enctype="multipart/form-data">';
+echo '<br/><div><form action="index.php?in=text" method="post" enctype="multipart/form-data">';
 echo '<fieldset>';
-echo '<legend>Buchungsbestätigung</legend><br>';
-echo '<label for="best_text" class="create">Text für die Buchungsbestätigung:</label><br><br><p><b>Die Anrede und der Betreff werden automatisch erzeugt.</b><br>
+echo '<legend>Buchungsbestätigung</legend><br/>';
+echo '<label for="best_text" class="create">Text für die Buchungsbestätigung:</label><br/><br/><p><b>Die Anrede und der Betreff werden automatisch erzeugt.</b><br/>
 z. Bsp.:</p> 
 <p>Sehr geehrte Frau Mustermann,</p>
-<p>Hiermit bestätigen wir Ihre Buchung vom 5.5.2018 bis 10.05.2018.<br>
-<i>Hier kommt dann Ihr Text</i></p><textarea name="best_text" cols="100" rows="20">' . htmlspecialchars($best_text) . '</textarea><br><br>';
+<p>Hiermit bestätigen wir Ihre Buchung vom 5.5.2018 bis 10.05.2018.<br/>
+<i>Hier kommt dann Ihr Text</i></p><textarea name="best_text" cols="100" rows="20">' . htmlspecialchars($best_text) . '</textarea><br/><br/>';
 echo '<p>Anhänge wie Rechnung oder AGB´s können während der Buchungsbestätigung hinzugefügt werden.</p>';
-echo '</fieldset><br><br>';
+echo '</fieldset><br/><br/>';
 echo '<fieldset>';
-echo '<legend>Buchungsanfrage</legend><br>';
-echo '<label for="buch_text" class="create">Text für die Buchungsanfrage:</label><br><br><p><b>Die Anrede wird automatisch erzeugt.</b><br>
+echo '<legend>Buchungsanfrage</legend><br/>';
+echo '<label for="buch_text" class="create">Text für die Buchungsanfrage:</label><br/><br/><p><b>Die Anrede wird automatisch erzeugt.</b><br/>
 z. Bsp.:</p> 
 <p>Sehr geehrte Frau Mustermann,</p>
 <p>
-<i>Hier kommt dann Ihr Text</i></p><textarea name="buch_text" cols="100" rows="20">' . htmlspecialchars($buch_text) . '</textarea><br>';
+<i>Hier kommt dann Ihr Text</i></p><textarea name="buch_text" cols="100" rows="20">' . htmlspecialchars($buch_text) . '</textarea><br/>';
 echo '<p>Hier können Sie eine Datei, z.B. Ihre AGB´s auswählen.</p>';
-echo '<label for="datei">Anhang: <input name="datei" type="file" size="50" accept="file/*"></label><br>';
-echo 'Ausgewählte Datei: '.$anhang_buch.'<br>';
-echo '<input type="checkbox" id="del_file" name="del_file" value="1">';
-echo '<label for="del_file"> keine Datei wählen</label><br><br>';
-echo '<input type="hidden" name="old_file" value="' . $anhang_buch . '">';
-echo '<input type="hidden" name="id_text" value="' . $id_text . '">';
-echo '</fieldset><br>';
-echo '<input type="submit" name="senden" value="speichern">';
+echo '<label for="datei">Anhang: <input name="datei" type="file" size="50" accept="file/*"/></label><br/>';
+echo 'Ausgewählte Datei: '.$anhang_buch.'<br/>';
+echo '<input type="checkbox" id="del_file" name="del_file" value="1"/>';
+echo '<label for="del_file"> keine Datei wählen</label><br/><br/>';
+echo '<input type="hidden" name="old_file" value="' . $anhang_buch . '"/>';
+echo '<input type="hidden" name="id_text" value="' . $id_text . '"/>';
+echo '</fieldset><br/>';
+echo '<input type="submit" name="senden" value="speichern"/>';
 ?>
-    </form>    
+    </form>
     <script>CKEDITOR.replace('best_text', {
             height: 300,
             filebrowserBrowseUrl: 'fileman/index.html',

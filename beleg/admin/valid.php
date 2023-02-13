@@ -155,16 +155,16 @@ mysqli_set_charset($db_link, 'utf8');
 <p>Hiermit bestätigen wir Ihre Buchung vom ' . $datean . ' bis ' . $dateab . '.<br/>
 ' . $best_text . '</p>';
 
-            echo '<br><div class=mailform><form action="index.php?in=mail" enctype="multipart/form-data" method="post">';
+            echo '<br/><div class="mailform"><form action="index.php?in=mail" enctype="multipart/form-data" method="post">';
             echo '<fieldset>';
             echo '<legend>Buchungsbestätigung per Email versenden: </legend>';
-            echo '<label for="empfaenger" class="create">Empfänger:</label><br><input type="email" name="empfaenger" value="' . $email_adr . '"><br>';
-            echo '<label for="bcc" class="create">BCC (Kopie an mich):</label><br><input type="email" name="bcc" value="' . $emailadr . '"><br>';
-            echo '<label for="betreff" class="create">Betreff:</label><br><input type="text" name="betreff" value="' . $betreff . '"><br>';
-            echo '<label for="nachricht" class="create">Nachricht:</label><br><textarea name="nachricht" cols="100" rows="20">' . $nachricht . '</textarea><br><br>';
+            echo '<label for="empfaenger" class="create">Empfänger:</label><br/><input type="email" name="empfaenger" value="' . $email_adr . '"><br/>';
+            echo '<label for="bcc" class="create">BCC (Kopie an mich):</label><br/><input type="email" name="bcc" value="' . $emailadr . '"><br/>';
+            echo '<label for="betreff" class="create">Betreff:</label><br/><input type="text" name="betreff" value="' . $betreff . '"><br/>';
+            echo '<label for="nachricht" class="create">Nachricht:</label><br/><textarea name="nachricht" cols="100" rows="20">' . $nachricht . '</textarea><br/><br/>';
             echo '<p>Hier können Sie eine Datei, z.B. Ihre AGB´s oder eine Rechnung auswählen.</p>';
-            echo '<label for="datei">Anhang: <input name="datei" type="file" size="50" accept="file/*"></label><br><br>';
-            echo '<input type="submit" name="senden" value="senden">';
+            echo '<label for="datei">Anhang: <input name="datei" type="file" size="50" accept="file/*"/></label><br/><br/>';
+            echo '<input type="submit" name="senden" value="senden"/>';
             echo '</fieldset></form>';
             ?>
             <script>CKEDITOR.replace('nachricht', {
@@ -176,7 +176,7 @@ mysqli_set_charset($db_link, 'utf8');
             <?php
         }
     } else {
-        echo '<a href="index.php?in=vali&bookingnr=' . $nr . '&validate=1&time=' . $times_id . '">Buchung bestätigen</a><br>';
+        echo '<a href="index.php?in=vali&amp;bookingnr=' . $nr . '&amp;validate=1&amp;time=' . $times_id . '">Buchung bestätigen</a><br/>';
     }
     export($db_link, $obj_id);
     ?>
