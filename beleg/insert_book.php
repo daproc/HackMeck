@@ -40,11 +40,9 @@ use PHPMailer\PHPMailer\Exception;
 <!DOCTYPE html>
 <html>
     <head  lang="de">
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="css/book.css">
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="style/book.css"/>
         <title>Belegung</title>
-        <style>
-        </style>
     </head>
     <body>
         <?php
@@ -176,7 +174,7 @@ use PHPMailer\PHPMailer\Exception;
             while ($zeile_c = $chk_guests->fetch()) {
                 $max_guest = $zeile_c['max_people'];
             }
-            if ($anzahl_erw + $anzahl_kind > $max_guest) {
+            if ((int)$anzahl_erw + (int)$anzahl_kind > (int)$max_guest) {
                 echo '<div class="fehler">Soviele Gäste bekommen wir nicht unter!</div>';
                 echo '<a href="index.php?objekt=' . $objekt . '"> Zurück </a>';
                 die();

@@ -2,7 +2,8 @@
 
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -129,10 +130,16 @@ function name($id) {
 function export($db_link, $obj) {
     $sql = "SELECT name, export_uri FROM objekt WHERE id = '" . $obj . "'";
     $db_erg = mysqli_query($db_link, $sql);
+    $exp_uri = null;
     while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
         $obj_name = $zeile['name'];
         $exp_uri = $zeile['export_uri'];
     }
+
+    if ($exp_uri == null) {
+        return 1;
+    }
+
     if (file_exists("ical/" . $exp_uri)) {
             unlink("ical/" . $exp_uri);
         }
