@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -27,9 +28,7 @@
 */
 	
 ?>
-<html>
-<head>
-<style>
+
 <?php
 $controll = $remote;
 if($controll != 24519){
@@ -40,11 +39,7 @@ $month = array("Monat", "Januar", "Februar", "März", "April", "Mai", "Juni", "J
 //include ('includes/functions.php');
 //include ('css/insert_css.php');
 mysqli_set_charset($db_link, 'utf8');
-?>
-</style>
-</head>
-<body>
-<?php
+
 if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen ob Datensatz ausgewählt wurde
 	$id = $_GET['id'];  //ID übergeben
 	$sql = "SELECT times.*, objekt.name FROM times LEFT JOIN objekt ON times.objekt_id = objekt.id WHERE times.id = '".$id."'" ;
@@ -60,24 +55,36 @@ if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen
 		$guest_id = $zeile['user'];
 		$obj_name = $zeile['name'];
 		echo 'Datensatz "'.date('d.m.y', strtotime($datean)).' bis '.date('d.m.y', strtotime($dateab)).' aus Objekt: '.$obj_name.'" wirklich löschen?<br>'; 
-		echo '<a href=index.php?in=loe&ask=yes&id='.$id.'&obj='.$obj_id.'&user='.$guest_id.'>JA</a> <a href=index.php?in=rem>NEIN</a>';
+		echo '<a href=\"index.php?in=loe&amp;ask=yes&amp;id='.$id.'&obj='.$obj_id.'&amp;user='.$guest_id.'\">JA</a> <a href=\"index.php?in=rem\">NEIN</a>';
 	}
 }elseif(isset($_GET['ask'])and !empty($_GET['ask']) AND isset($_GET['id'])and !empty($_GET['id'])){
 	$id = $_GET['id'];
 	$guest_id = $_GET['user'];
-        $obj_id = $_GET['obj'];
-	$rem_book = "DELETE FROM booking WHERE guest_id = '".$guest_id."'";
-	$re_book = mysqli_query($db_link, $rem_book);
-	$rem_guest = "DELETE FROM guests WHERE id = '".$guest_id."'";
-	$re_guest = mysqli_query($db_link, $rem_guest);
-	$loeschen = "DELETE FROM times WHERE id = '".$id."'";
-	$loesch = mysqli_query($db_link, $loeschen);
-	echo 'Datensatz gelöscht<br>';
-	echo '<a href=index.php?in=rem>zurück</a>';
-        export($db_link, $obj_id);
+	$obj_id = $_GET['obj'];
+	if (mysqli_begin_transaction($db_link) === true) {
+		$rem_book = "DELETE FROM booking WHERE guest_id = '".$guest_id."'";
+		$re_book = mysqli_query($db_link, $rem_book);
+		$loeschen = "DELETE FROM times WHERE id = '".$id."'";
+		$loesch = mysqli_query($db_link, $loeschen);
+		$rem_guest = "DELETE FROM guests WHERE id = '".$guest_id."'";
+		$re_guest = mysqli_query($db_link, $rem_guest);
+		if ($loesch === true && $re_book === true && $re_guest === true) {
+			if (mysqli_commit($db_link) === true) {
+				echo 'Datensatz gelöscht<br/>';
+				echo '<a href=\"index.php?in=rem\">zurück</a>';
+				export($db_link, $obj_id);
+			} else {
+				echo 'Datenbank-Transaktion fehlgeschlagen.';
+			}
+		} else {
+			echo 'Löschen fehlgeschlagen.';
+		}
+	} else {
+		echo 'Keine Datenbank-Transaktion.';
+	}
 }elseif(!isset($_GET['id'])AND empty($_GET['id'])) {
-	echo 'Keine Daten zum löschen ausgewählt<br>';
-	echo '<a href=index.php?in=rem>zurück</a>';
+	echo 'Keine Daten zum Löschen ausgewählt<br/>';
+	echo '<a href=\"index.php?in=rem\">zurück</a>';
 	exit();
 }
 ?>
