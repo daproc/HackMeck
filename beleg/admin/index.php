@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -52,14 +53,14 @@ if (!isset($_SESSION['userid'])) {
 
     <p>Bitte erst einloggen.</p>
 
-    <form action="login.php?login=1&<?php echo $ende; ?>" method="post">
-        E-Mail:<br>
-        <input type="email" size="40" maxlength="250" name="email"><br><br>
+    <form action="login.php?login=1&amp;<?php echo $ende; ?>" method="post">
+        E-Mail:<br/>
+        <input type="email" size="40" maxlength="250" name="email"><br/><br/>
 
-        Dein Passwort:<br>
-        <input type="password" size="40"  maxlength="250" name="passwort"><br><br>
+        Dein Passwort:<br/>
+        <input type="password" size="40"  maxlength="250" name="passwort"><br/><br/>
 
-        <input type="submit" value="anmelden"><br>
+        <input type="submit" value="anmelden"/><br/>
     </form> 
     <?php
     die();
@@ -101,8 +102,8 @@ include ('css/admin_css.php');
                 <ul>
                     <li class="submenu"><a href="#" title="Einstellungen">Einstellungen</a>
                         <ul>
-                            <li><a href="index.php?in=scr&objekt=1" title="Anzeige">Anzeige</a></li>
-                            <li><a href="index.php?in=des&objekt=1" title="Farben">Farben</a></li>
+                            <li><a href="index.php?in=scr&amp;objekt=1" title="Anzeige">Anzeige</a></li>
+                            <li><a href="index.php?in=des&amp;objekt=1" title="Farben">Farben</a></li>
                             <li><a href="index.php?in=mail_set" title="Email-Einstellungen">Email-Einstellungen</a></li>
                             <li><a href="index.php?in=text" title="Texte">Textbausteine</a></li>
                             <li><a href="index.php?in=user_ad" title="Texte">Nutzer</a></li>
@@ -122,10 +123,12 @@ include ('css/admin_css.php');
                                         if (!$db_erg) {
                                             die('Ungültige Abfrage: ' . mysqli_error());
                                         }
+                                        $name = "";
+                                        $id = "";
                                         while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
                                             $name = $zeile['name'];
-                                            $id = $zeile['id'];
-                                            echo '<li><a href="index.php?in=forms&objekt=' . $id . '" title="Formular">Formular für ' . $name . '</a></li>';
+                                            $id = (int)$zeile['id'];
+                                            echo '<li><a href="index.php?in=forms&amp;objekt=' . $id . '" title="Formular">Formular für ' . htmlspecialchars($name) . '</a></li>';
                                         }
                                         ?>
                                     </ul>
@@ -154,10 +157,12 @@ include ('css/admin_css.php');
                                     if (!$db_erg) {
                                         die('Ungültige Abfrage: ' . mysqli_error());
                                     }
+                                    $name = "";
+                                    $id = "";
                                     while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
                                         $name = $zeile['name'];
-                                        $id = $zeile['id'];
-                                        echo '<li><a href="index.php?in=book&objekt=' . $id . '" title="Eintragen">Eintragen in ' . $name . '</a></li>';
+                                        $id = (int)$zeile['id'];
+                                        echo '<li><a href="index.php?in=book&amp;objekt=' . $id . '" title="Eintragen">Eintragen in ' . htmlspecialchars($name) . '</a></li>';
                                     }
                                     ?>
                                 </ul>
@@ -173,15 +178,20 @@ include ('css/admin_css.php');
                                     if (!$db_erg) {
                                         die('Ungültige Abfrage: ' . mysqli_error());
                                     }
+                                    $name = "";
+                                    $id = "";
                                     while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
                                         $name = $zeile['name'];
-                                        $id = $zeile['id'];
-                                        echo '<li><a href="index.php?in=exp&objekt=' . $id . '" title="Export von ' . $name . '">Export von ' . $name . '</a></li>';
+                                        $id = (int)$zeile['id'];
+                                        echo '<li><a href="index.php?in=exp&amp;objekt=' . $id . '" title="Export von ' . htmlspecialchars($name) . '">Export von ' . htmlspecialchars($name) . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
 
+                            <?php
+                            /** @todo iCal-Import bisher noch defekt... */
+                            /*
                             <li class="submenu"><a href="#" title="Importieren">Import Ical</a>
                                 <ul>
                                     <?php
@@ -191,15 +201,17 @@ include ('css/admin_css.php');
                                     if (!$db_erg) {
                                         die('Ungültige Abfrage: ' . mysqli_error());
                                     }
+                                    $name = "";
+                                    $id = "";
                                     while ($zeile = mysqli_fetch_array($db_erg, MYSQLI_ASSOC)) {
                                         $name = $zeile['name'];
-                                        $id = $zeile['id'];
-                                        echo '<li><a href="index.php?in=imp&objekt=' . $id . '" title="Import in ' . $name . '">Import in ' . $name . '</a></li>';
+                                        $id = (int)$zeile['id'];
+                                        echo '<li><a href="index.php?in=imp&amp;objekt=' . $id . '" title="Import in ' . htmlspecialchars($name) . '">Import in ' . htmlspecialchars($name) . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
-
+                            */ ?>
 
                             <li><a href="index.php?in=rem" title="Löschen">Löschen</a></li>
                         </ul>
@@ -220,7 +232,7 @@ include ('css/admin_css.php');
             <?php
             if (!isset($_GET['in'])AND empty($_GET['in'])) {
                 $in = date("Y");
-                echo '<br><br>';
+                echo '<br/><br/>';
                 echo '<h1>Herzlich Willkommen</h1>';
             } elseif (isset($_GET['in'])AND ! empty($_GET['in'])) {
                 $in = $_GET['in'];
@@ -259,16 +271,16 @@ include ('css/admin_css.php');
                 echo '<h1>Meine Buchungsformulare</h1>';
                 include ('form_ins.php');
             } elseif ($in == 'vali') {
-                echo '<h1>meine Buchungsanfragen</h1>';
+                echo '<h1>Meine Buchungsanfragen</h1>';
                 include ('valid.php');
             } elseif ($in == 'bq') {
-                echo '<h1>meine Buchungsanfragen</h1>';
+                echo '<h1>Meine Buchungsanfragen</h1>';
                 include ('book_quest.php');
             } elseif ($in == 'booking') {
-                echo '<h1>meine Buchungen</h1>';
+                echo '<h1>Meine Buchungen</h1>';
                 include ('bookings.php');
             } elseif ($in == 'vali_re') {
-                echo '<h1>meine Buchungen</h1>';
+                echo '<h1>Meine Buchungen</h1>';
                 include ('valid_re.php');
             } elseif ($in == 'mail') {
                 echo '<h1>Mail</h1>';

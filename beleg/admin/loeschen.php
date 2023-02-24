@@ -26,10 +26,7 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
 */
-	
-?>
 
-<?php
 $controll = $remote;
 if($controll != 24519){
 	echo 'Kein Zugriff!';
@@ -39,6 +36,14 @@ $month = array("Monat", "Januar", "Februar", "März", "April", "Mai", "Juni", "J
 //include ('includes/functions.php');
 //include ('css/insert_css.php');
 mysqli_set_charset($db_link, 'utf8');
+
+$isSourceAnfrage = false;
+
+if (isset($_GET['source']) == true) {
+    if ($_GET['source'] == "anfrage") {
+        $isSourceAnfrage = true;
+    }
+}
 
 if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen ob Datensatz ausgewählt wurde
 	$id = $_GET['id'];  //ID übergeben
@@ -54,8 +59,8 @@ if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen
                 $obj_id = $zeile['objekt_id'];
 		$guest_id = $zeile['user'];
 		$obj_name = $zeile['name'];
-		echo 'Datensatz "'.date('d.m.y', strtotime($datean)).' bis '.date('d.m.y', strtotime($dateab)).' aus Objekt: '.$obj_name.'" wirklich löschen?<br>'; 
-		echo '<a href="index.php?in=loe&amp;ask=yes&amp;id='.$id.'&obj='.$obj_id.'&amp;user='.$guest_id.'">JA</a> <a href="index.php?in=rem">NEIN</a>';
+		echo 'Datensatz "'.date('d.m.y', strtotime($datean)).' bis '.date('d.m.y', strtotime($dateab)).' aus Objekt: '.htmlspecialchars($obj_name).'" wirklich löschen?<br/>'; 
+		echo '<a href="index.php?in=loe&amp;ask=yes&amp;id='.$id.'&obj='.$obj_id.'&amp;user='.$guest_id.($isSourceAnfrage == true ? '&amp;source=anfrage' : '').'">JA</a> <a href="index.php?in='.($isSourceAnfrage == true ? 'bq' : 'rem').'">NEIN</a>';
 	}
 }elseif(isset($_GET['ask'])and !empty($_GET['ask']) AND isset($_GET['id'])and !empty($_GET['id'])){
 	$id = $_GET['id'];
@@ -71,7 +76,7 @@ if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen
 		if ($loesch === true && $re_book === true && $re_guest === true) {
 			if (mysqli_commit($db_link) === true) {
 				echo 'Datensatz gelöscht<br/>';
-				echo '<a href="index.php?in=rem">zurück</a>';
+				echo '<a href="index.php?in='.($isSourceAnfrage == true ? 'bq' : 'rem').'">zurück</a>';
 				export($db_link, $obj_id);
 			} else {
 				echo 'Datenbank-Transaktion fehlgeschlagen.';
@@ -84,7 +89,7 @@ if(isset($_GET['id'])AND !empty($_GET['id']) AND empty($_GET['ask'])){ //Prüfen
 	}
 }elseif(!isset($_GET['id'])AND empty($_GET['id'])) {
 	echo 'Keine Daten zum Löschen ausgewählt<br/>';
-	echo '<a href="index.php?in=rem">zurück</a>';
+	echo '<a href="index.php?in='.($isSourceAnfrage == true ? 'bq' : 'rem').'">zurück</a>';
 	exit();
 }
 ?>

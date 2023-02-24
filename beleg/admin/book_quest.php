@@ -1,7 +1,8 @@
 <?php
 #########################################
 #Belegungsplan  			#
-#©2017 Daniel ProBer alias HackMeck	#
+#©2017-2023 Daniel ProBer alias		#
+#HackMeck				#
 #https://www.hackmeck.de		#
 #GERMANY				#
 #					#
@@ -26,11 +27,6 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
 */
 ?>
-<!DOCTYPE html>
-<html lang="de">
-<meta charset="utf-8">
-<head>
-<style>
 <?php
 $controll = $remote;
 if($controll != 24519){
@@ -44,13 +40,14 @@ if(isset($_GET['jahr'])and !empty($_GET['jahr'])) //Prüfen ob Jahr ausgewählt 
 }else {
 	$jahr = date("Y");      //Ohne Auswahl aktuelles Jahr übernehmen
 }
-//include ('includes/functions.php');
-//include ('css/insert_css.php');
 mysqli_set_charset($db_link, 'utf8');
 ?>
-</style>
-</head>
-<body>
+<?php
+//echo '<style>';
+//include ('includes/functions.php');
+//include ('css/insert_css.php');
+//echo '</style>';
+?>
 <?php
 echo '<ul>';
 $sql = "SELECT 
@@ -84,7 +81,7 @@ while ($zeile = mysqli_fetch_array( $db_erg, MYSQLI_ASSOC)){
 	$guest_id = $zeile['user'];
 	$obj_name = $zeile['name'];
 	$book_id = $zeile['id'];
-	echo '<li>'.date('d.m.y', strtotime($datean)).' bis '.date('d.m.y', strtotime($dateab)).' aus Objekt "'.$obj_name.'"  <a href=index.php?in=vali&bookingnr='.$guest_id.'-'.$times_id.'-'.$book_id.'&objekt='.$obj_id.'>bearbeiten</a></li><hr>';
+	echo '<li>'.date('d.m.y', strtotime($datean)).' bis '.date('d.m.y', strtotime($dateab)).' aus Objekt "'.htmlspecialchars($obj_name).'"  <a href="index.php?in=vali&amp;bookingnr='.$guest_id.'-'.$times_id.'-'.$book_id.'&amp;objekt='.$obj_id.'">bearbeiten</a> <a href="index.php?in=loe&amp;id='.((int)$times_id).'&name='.htmlspecialchars($obj_name).'&amp;source=anfrage">löschen</a></li><hr/>';
 }
 echo '</ul>';
 if(mysqli_num_rows($db_erg) == 0){
