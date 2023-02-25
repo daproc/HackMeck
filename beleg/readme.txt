@@ -13,7 +13,7 @@
 #z.B. Ferienwohnung 			#
 #########################################
 
-/* 	Belegungsplan ist Freie Software: Sie können ihn unter den Bedingungen
+/* Belegungsplan ist Freie Software: Sie können ihn unter den Bedingungen
   der GNU General Public License, wie von der Free Software Foundation,
   Version 2 der Lizenz weiterverbreiten und/oder modifizieren.
 
@@ -66,12 +66,12 @@ sicheres Passwort aus einer Kombination von Ziffern, Großbuchstaben, Kleinbuchs
 Sonderzeichen besteht. Merke Dir Deine Zugangsdaten! Nachdem Du auf Abschicken geklickt hast, kannst
 Du dich auch schon einloggen.
 
-Zum Abschluß der Installation musst Du nur noch den Ordner "install/" löschen, und den beiden Ordnern 
+Zum Abschluß der Installation musst Du nur noch den Ordner "beleg/install/" löschen, und den beiden Ordnern 
 "beleg/includes" und "beleg/admin/includes" die Schreibrechte wieder entziehen. 
 
 3. Objekt (Ferienwohnung / -haus) anlegen
 
-Nach dem Login klickst Du auf Ferienobjekte -> verwalten.
+Nach dem Login klickst Du auf "Ferienobjekte -> verwalten".
 Die Liste Deiner Objekte ist noch leer, deshalb wählst Du "neues Objekt anlegen".
 Im folgenden Formular gibst Du den Namen Deines Ferienobjekt ein, die anderen Felder sind optional, 
 und klickst auf "speichern"! Die Felder Max Gäste und Max Hunde sollten dennoch ausgefüllt werden.
@@ -79,16 +79,16 @@ Diese sind für das Buchungssystem von Bedeutung. Wenn alles richtig war kannst 
 
 4. Buchungsformulare anlegen
 
-Gehe auf Ferienobjekte -> Formulare -> Formular für ...
+Gehe auf "Ferienobjekte -> Formulare -> Formular für ..."
 Hier kannst Du in der ersten Spalte die Felder auswählen, die auf Deiner Webseite angezeigt werden sollen.
-In der zweiten Spalte kannst Du wählen ob der Gast das Feld ausfühlen muss. Ja = Pflichfeld Nein = nicht Notwendig.
+In der zweiten Spalte kannst Du wählen ob der Gast das Feld ausfühlen muss. Ja = Pflichtfeld Nein = nicht Notwendig.
 Mit einem Klick auf "Formular speichern" ist dieses auch angelegt.
 
 5 Emails
 
 5.1 Email-Einstellungen
 
-Über Einstellungen -> Email-Einstellungen kannst Du einen SMTP-Server für ausgehende Emails angeben.
+Über "Einstellungen -> Email-Einstellungen" kannst Du einen SMTP-Server für ausgehende Emails angeben.
 Dies hat den Vorteil, dass Emails seltener im Spamordner der Gäste landen.
 Die Daten erhälst Du von dem Anbieter Deiner Email-Adresse.
 Wenn Du keine Einstellungen vornimmst werden Emails über Deinen Webserver versendet.
@@ -101,7 +101,7 @@ Port: kann auf 587 bleiben
 
 5.2 Text für Emails an den Gast
 
-Wähle Einstellungen -> Textbausteine
+Wähle "Einstellungen -> Textbausteine"
 Nun kannst Du im oberen Feld den Text eingeben, den der Gast bei Deiner Buchungsbestätigung als Email erhält.
 Hier empfehle ich alle wichtigen Informationen zur Anreise, Abreise und zum Aufenthalt anzugeben.
 !!! Die Anrede und der Buchungszeitraum werden automatisch erstellt. !!!
@@ -123,7 +123,7 @@ Füge im Headbereich Deiner Seite (als zwischen <head> und </head>) folgenden Co
 
 Eventuell musst Du noch den Pfad zum Belegungsplan anpassen.
 
-Jetzt gehst Du im Adminbereich auf Ferienobjekte -> Verwalten. Im folgenden Fenster klickst Du bei dem 
+Jetzt gehst Du im Adminbereich auf "Ferienobjekte -> Verwalten". Im folgenden Fenster klickst Du bei dem 
 Ferienobjekt dessen Kalender, welchen Du ausgeben möchtest auf "bearbeiten".
 
 Hier siehst Du nun den Code, den Du auf einer beliebigen Seite ausgeben kannst. Kopiere den Code von 
@@ -150,14 +150,14 @@ Beispiel: www.deinedomain.de/unterordner/beleg/admin/
 
 Nach dem Login kannst Du Belegungen erstellen, Belegungen löschen und die Farben des Kalenders anpassen.
 
-Um eine Belegung zu erstellen, wähle "Buchungen -> Eintragen -> Eintragen in ....
+Um eine Belegung zu erstellen, wähle "Buchungen -> Eintragen -> Eintragen in ...."
 Gib ein Anreise- und ein Abreisedatum an und klicke auf weiter. 
 
-Um eine Belegung zu löschen, wähle "Buchungen -> Löschen.
+Um eine Belegung zu löschen, wähle "Buchungen -> Löschen".
 Klicke auf den Eintrag, den Du löschen möchtest und und bestätige mit "Ja".
 
 Um eine Buchung zu bestätigen wähle "Buchungen -> Buchungsanfragen"
-Du siehst nun alle offenen Buchungsanfragen und kannst mit einem Klick auf bearbeiten diese dann auch bestätigen.
+Du siehst nun alle offenen Buchungsanfragen und kannst mit einem Klick auf "bearbeiten" diese dann auch bestätigen.
 Dazu klickst Du auf der folgenden Seite auf "Buchung bestätigen" nun siehst du im unteren Bereich der Seite 
 ein Emailformular. 
 Hier kannst Du die Email, die der Gast erhält noch kontrollieren oder verändern und einen Anhang wie eine Rechnung
@@ -167,11 +167,11 @@ Buchungsanfragen kannst Du auch mit dem Link in der Email die Du bekommst bestä
 Du kannst auch Buchungsanfragen widerrufen indem Du "Buchungen -> Buchungen" wählst.
 Der Ablauf ist der gleiche wie beim Bestätigen.
 
-Die Farben des Kalender änderst Du über Einstellungen -> Farben. Hier kannst Du alle Farben auswählen. Mit einem
-Klick auf Speichern werden Deine gewählten Farben übernommen. Unten siehst Du wie Deine Auswahl aussieht.
+Die Farben des Kalender änderst Du über "Einstellungen -> Farben". Hier kannst Du alle Farben auswählen. Mit einem
+Klick auf "Speichern" werden Deine gewählten Farben übernommen. Unten siehst Du wie Deine Auswahl aussieht.
 
 Du kannst wählen ob der Kalender ein ganzes Jahr oder nur einzelne Monate anzeigen soll. Gehe dazu auf 
-Einstellungen -> Anzeige. Klicke Jahres-, Monatsansicht oder Automatisch an, wähle wieviele Monatskalender angezeigt werden 
+"Einstellungen -> Anzeige". Klicke Jahres-, Monatsansicht oder Automatisch an, wähle wieviele Monatskalender angezeigt werden 
 sollen und danach auf speichern.
 
 Bei Automatisch wird je nach Gerät (Computer, Tablet oder Handy) der passende Kalender angezeigt.
