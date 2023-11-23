@@ -1,0 +1,52 @@
+Anweisungen für die Aktualisierung einer bestehenden Installation in
+Version 0.7.3 ("Ziel") auf die aktuell vorliegende neuere Version ("Quelle").
+
+Vorher eine Sicherungskopie der Installation anlegen, damit diese
+im Zweifel/Notfall wieder zurück-eingespielt werden kann!
+
+
+Im Ziel zu aktualisieren/ersetzen:
+
+$/beleg/admin/alter.php
+$/beleg/admin/book_quest.php
+$/beleg/admin/import.php
+$/beleg/admin/includes/functions.php
+$/beleg/admin/index.php
+$/beleg/admin/loeschen.php
+$/beleg/admin/login.php
+$/beleg/admin/mail.php
+$/beleg/admin/mail_setting.php
+$/beleg/admin/register.php
+$/beleg/admin/textbau.php
+$/beleg/admin/user_admin.php
+$/beleg/admin/valid.php
+$/beleg/admin/valid_re.php
+$/beleg/booking.php
+$/beleg/insert_book.php
+
+
+Neu hinzugekommen und im Ziel hinzuzufügen:
+
+$/beleg/PHPMailer
+
+
+Kann im Ziel gelöscht werden (wird nicht mehr verwendet):
+
+$/beleg/admin/class.phpmaileroauthgoogle.php
+$/beleg/admin/class.phpmaileroauth.php
+$/beleg/admin/class.phpmailer.php
+$/beleg/admin/class.pop3.php
+$/beleg/admin/class.smtp.php
+$/beleg/admin/PHPMailerAutoload.php
+$/beleg/class.phpmaileroauthgoogle.php
+$/beleg/class.phpmaileroauth.php
+$/beleg/class.phpmailer.php
+$/beleg/class.pop3.php
+$/beleg/class.smtp.php
+$/beleg/PHPMailerAutoload.php
+
+
+Anschließend die Textbausteine durchsehen und ggf. korrigieren. Hier ist
+das Escaping geändert, und es kann gut sein, dass daher unerwünschte
+Steuerzeichen dort enthalten sind, die vorher auch in dieser kaputten Form
+in die E-Mails eingebracht worden sein dürften.

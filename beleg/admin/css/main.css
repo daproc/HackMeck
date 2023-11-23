@@ -1,0 +1,83 @@
+/*
+#########################################
+#Belegungsplan  			#
+#©2017 Daniel ProBer alias HackMeck	#
+#https://www.hackmeck.de		#
+#GERMANY				#
+#					#
+#Mail: daproc@gmx.net			#
+#Paypal: daproc@gmx.net			#
+#					#
+#Zeigt einen Kalender mit 		#
+#Belegung für ein Objekt an.		#
+#z.B. Ferienwohnung 			#
+#########################################
+
+	Belegungsplan ist Freie Software: Sie können ihn unter den Bedingungen
+    der GNU General Public License, wie von der Free Software Foundation,
+    Version 2 der Lizenz weiterverbreiten und/oder modifizieren.
+
+    Belegungsplan wird in der Hoffnung, dass er nützlich sein wird, aber
+    OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
+    Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+    Siehe die GNU General Public License für weitere Details.
+
+    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+    Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>
+*/
+	
+form {
+  background-color: #eee;
+  padding: 10px;
+  border: 1px solid #8c8c8c;
+  font-size: 1.5em;
+  border-radius: 5px;
+}
+form span {
+	padding-left: 10px;
+	font-size: 0.7em;
+}
+fieldset {
+	padding: 10px;
+	border-radius: 5px;
+        
+}
+label {
+    width: 10em;
+    display: block;
+    cursor: pointer;
+    padding-bottom: 10px;
+}
+input[type="text"] {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+   width: 80%;
+}
+input {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+}
+input[type="password"] {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+   width: 80%;
+}
+input[type="email"] {
+   padding: 2px 16px; 
+   height: 40px; 
+   font-size: 1em;
+   border-radius: 5px;
+   width: 80%;
+}
+
+input:focus,
+textarea:focus {
+  background-color: #d9d9d9;
+  
+}
